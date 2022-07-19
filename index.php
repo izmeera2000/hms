@@ -20,7 +20,7 @@ if (isset($_GET['logout'])) {
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
+    <link rel="manifest" href="manifest.json">
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
@@ -99,6 +99,23 @@ if ($_SESSION['level'] == 2) { // if user exists
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown"> -->
+                    <?php
+if ($_SESSION['level'] == 1) { // if user exists
+?>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                                class="fa fa-home"></i>Hostel</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="hostel.php?h=a" class="dropdown-item">Hostel A</a>
+                            <a href="hostel.php?h=b" class="dropdown-item">Hostel B</a>
+                            <a href="hostel.php?h=c " class="dropdown-item">Hostel C</a>
+                            <a href="hostel.php?h=d" class="dropdown-item">Hostel D</a>
+                        </div>
+                    </div>
+                    <?php
+}
+
+?>
                     <!-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a> -->
                     <!-- <div class="dropdown-menu bg-transparent border-0">
                             <a href="signin.html" class="dropdown-item">Sign In</a>
@@ -289,7 +306,14 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <i class="fa fa-home fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Hostel A</p>
-                                <h6 class="mb-0">0/100</h6>
+                                <?php
+    $querya = "SELECT room_num FROM application WHERE room_num LIKE '%a%'  ";
+    $resultsa = mysqli_query($db, $querya);
+    $rowa = mysqli_num_rows($resultsa);
+    echo '<h6 class="mb-0">' . $rowa . '/100</h6>';
+?>
+
+
                             </div>
                         </div>
                     </div>
@@ -298,7 +322,12 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <i class="fa fa-home fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Hostel B</p>
-                                <h6 class="mb-0">0/100</h6>
+                                <?php
+    $queryb = "SELECT room_num FROM application WHERE room_num LIKE '%b%'  ";
+    $resultsb = mysqli_query($db, $queryb);
+    $rowb = mysqli_num_rows($resultsb);
+    echo '<h6 class="mb-0">' . $rowb . '/100</h6>';
+?>
                             </div>
                         </div>
                     </div>
@@ -307,7 +336,12 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <i class="fa fa-home fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Hostel C</p>
-                                <h6 class="mb-0">0/100</h6>
+                                <?php
+    $queryc = "SELECT room_num FROM application WHERE room_num LIKE '%c%'  ";
+    $resultsc = mysqli_query($db, $queryc);
+    $rowc = mysqli_num_rows($resultsc);
+    echo '<h6 class="mb-0">' . $rowc . '/100</h6>';
+?>
                             </div>
                         </div>
                     </div>
@@ -316,7 +350,12 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <i class="fa fa-home fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Hostel D</p>
-                                <h6 class="mb-0">0/100</h6>
+                                <?php
+    $queryd = "SELECT room_num FROM application WHERE room_num LIKE '%d%'  ";
+    $resultsd = mysqli_query($db, $queryd);
+    $rowd = mysqli_num_rows($resultsd);
+    echo '<h6 class="mb-0">' . $rowd . '/100</h6>';
+?>
                             </div>
                         </div>
                     </div>
@@ -335,44 +374,167 @@ if ($_SESSION['level'] == 1) { // if user exists
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
                             <thead>
                                 <tr class="text-dark">
-                                    <th scope="col">Application Number</th>
-                                    <th scope="col">Student</th>
-                                    <th scope="col">NDP</th>
-                                    <th scope="col">Course</th>
-                                    <th scope="col">Detail</th>
-
+                                    <th scope="col">#</th>
+                                    <th scope="col-lg-4 col-sm-4">Student</th>
+                                    <th scope="col-lg-2 col-sm-2">NDP</th>
+                                    <th scope="col-lg-2 col-sm-2">Course</th>
+                                    <th scope="col">Application</th>
+                                    <th scope="col">Payment</th>
                                     <th scope="col">Approval</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                            <?php
-                    $query = "SELECT * FROM application WHERE room_num='0'";
-        $results = mysqli_query($db, $query);
+                                <?php
+    $query = "SELECT * FROM application WHERE phase='2'";
+    $results = mysqli_query($db, $query);
 
-        if (mysqli_num_rows($results) > 0) {
-            while ($row = mysqli_fetch_assoc($results)) {
+    if (mysqli_num_rows($results) > 0) {
+        while ($row = mysqli_fetch_assoc($results)) {
 
-                
-                echo '<tr>';
-                echo '<td>' . $row["id"].'</td>';
-                echo '<td>' . $row["name"].'</td>';
-                echo '<td>' . $row["ndp"].'</td>';
-                echo '<td>' . $row["course"].'</td>';
-                echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["id"]. '" name="id" type="hidden">
-                <button class="btn btn-sm btn-primary" type="submit" name="pdf2">Detail</button></form></td>';
-                // echo '<td><a class="btn btn-sm btn-primary" href="">Approve</a></td>';
-                echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["id"]. '" name="id" type="hidden">
-                <button class="btn btn-sm btn-primary" type="submit" name="approve">Approve</button></form></td>';
-                echo '</tr>';
-                
 
-            }
-        } 
+            echo '<tr>';
+            echo '<td>' . $row["id"] . '</td>';
+            echo '<td>' . $row["name"] . '</td>';
+            echo '<td>' . $row["ndp"] . '</td>';
+            echo '<td>' . $row["course"] . '</td>';
+            echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["id"] . '" name="id" type="hidden">
+                <button class="btn btn-sm btn-primary" type="submit" name="pdf">Detail</button></form></td>';
+            // echo '<td><a class="btn btn-sm btn-primary" href="">Approve</a></td>';
+            echo '<td><a href="' . $row["rpayment"] . '"><button class="btn btn-sm btn-primary" >Detail</button><a/>    </td>';
 
-        
+            // echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["ndp"] . '" name="ndp" type="hidden">
+            //     <button class="btn btn-sm btn-primary" type="submit" name="approve">Approve</button></form></td>';
+            echo '<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Approve</button></td>';
+            echo '</tr>';
 
-        ?>
+
+            echo '<form method="post" action="index.php" enctype="multipart/form-data">';
+            echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+            echo '<div class="modal-dialog modal-dialog-centered">';
+            echo '<div class="modal-content">';
+            echo '<div class="modal-header">';
+            echo '<h5 class="modal-title" id="exampleModalLabel">Receipt Details</h5>';
+            echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+            echo '</div>';
+            echo '<div class="modal-body">';
+            echo '<div class="form-floating mb-3">';
+            echo '<input type="hidden" name="ndp" value="' . $row["ndp"] . '">';
+            echo '<input name="number" type="text" class="form-control" id="floating4" required>';
+            echo '<label for="floating4">Receipt Num.</label>';
+            echo '</div>';
+            echo '<div class="form-floating mb-3">';
+            echo '<input name="tpaid" type="text" class="form-control" id="floating41" required>';
+            echo '<label for="floating41">Total Paid</label>';
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="modal-footer">';
+            echo '<button class="btn btn-sm btn-primary" type="submit" name="approve">Save changes</button>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</form>';
+
+        }
+    }
+
+
+
+?>
+                                <!-- <tr>
+                                    <td>INV-0123</td>
+                                    <td>Jhon Doe</td>
+                                    <td>NDP</td>
+                                    <td>Paid</td>
+                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                </tr> -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Recent Final Application</h6>
+                        <a href="">Show All</a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col">#</th>
+                                    <th scope="col-lg-4 col-sm-4">Student</th>
+                                    <th scope="col-lg-2 col-sm-2">NDP</th>
+                                    <th scope="col-lg-2 col-sm-2">Course</th>
+                                    <th scope="col">Application</th>
+                                    <!-- <th scope="col">Payment</th> -->
+                                    <th scope="col">Approval</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <?php
+    $query = "SELECT * FROM application WHERE phase='4'";
+    $results = mysqli_query($db, $query);
+
+    if (mysqli_num_rows($results) > 0) {
+        while ($row = mysqli_fetch_assoc($results)) {
+
+
+            echo '<tr>';
+            echo '<td>' . $row["id"] . '</td>';
+            echo '<td>' . $row["name"] . '</td>';
+            echo '<td>' . $row["ndp"] . '</td>';
+            echo '<td>' . $row["course"] . '</td>';
+            echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["id"] . '" name="id" type="hidden">
+                <button class="btn btn-sm btn-primary" type="submit" name="pdf">Detail</button></form></td>';
+            // echo '<td><a class="btn btn-sm btn-primary" href="">Approve</a></td>';
+            // echo '<td><a href="' . $row["rpayment"] . '"><button class="btn btn-sm btn-primary" >Detail</button><a/>    </td>';
+
+            // echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["ndp"] . '" name="ndp" type="hidden">
+            //     <button class="btn btn-sm btn-primary" type="submit" name="approve">Approve</button></form></td>';
+            echo '<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Approve</button></td>';
+            echo '</tr>';
+
+
+            echo '<form method="post" action="index.php" enctype="multipart/form-data">';
+            echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+            echo '<div class="modal-dialog modal-dialog-centered">';
+            echo '<div class="modal-content">';
+            echo '<div class="modal-header">';
+            echo '<h5 class="modal-title" id="exampleModalLabel">Receipt Details</h5>';
+            echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+            echo '</div>';
+            echo '<div class="modal-body">';
+            echo '<div class="form-floating mb-3">';
+            echo '<input type="hidden" name="ndp" value="' . $row["ndp"] . '">';
+            echo '<input name="number" type="text" class="form-control" id="floating4" required>';
+            echo '<label for="floating4">Receipt Num.</label>';
+            echo '</div>';
+            echo '<div class="form-floating mb-3">';
+            echo '<input name="tpaid" type="text" class="form-control" id="floating41" required>';
+            echo '<label for="floating41">Total Paid</label>';
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="modal-footer">';
+            echo '<button class="btn btn-sm btn-primary" type="submit" name="approve">Save changes</button>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</form>';
+
+        }
+    }
+
+
+
+?>
                                 <!-- <tr>
                                     <td>INV-0123</td>
                                     <td>Jhon Doe</td>
@@ -390,6 +552,8 @@ if ($_SESSION['level'] == 1) { // if user exists
 }
 ?>
             <!-- Recent Sales End -->
+
+            <!-- modal start-->
 
 
             <!-- Widgets Start -->
@@ -477,30 +641,52 @@ if ($_SESSION['level'] == 2) { // if user exists
                             </div> -->
 
                             <?php
-$username2 = $_SESSION['username'] ;
 
-$query = "SELECT * FROM application WHERE username= '$username2'";
-$results = mysqli_query($db, $query);
-if (mysqli_num_rows($results) == 1) {
+    $username2 = $_SESSION['username'];
+    $query = "SELECT * FROM application WHERE username= '$username2' ";
+    $results = mysqli_query($db, $query);
+    if (mysqli_num_rows($results) == 1) {
+
+        while ($row = mysqli_fetch_assoc($results)) {
+
+            $phase = $row['phase'];
+
+
+            if ($phase == 1) {
+
+
+
+
 
 ?>
-                        <form method="post" action="applyform.php">
+                            <form method="post" action="applyform.php">
+
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <input class="form-check-input m-0" disabled="disabled" checked="checked"
+                                        type="checkbox">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <span>Apply for Hostel</span>
+                                            <button name="pdf" type="submit" class="btn btn-sm btn-primary">See
+                                                PDF</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
                             <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" disabled="disabled" checked="checked"
-                                    type="checkbox">
+                                <input class="form-check-input m-0" disabled="disabled" type="checkbox">
                                 <div class="w-100 ms-3">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Apply for Hostel</span>
-                                        <button name="pdf" type="submit" class="btn btn-sm btn-primary" >See PDF</button>
+                                        <span>Pay for Hostel</span>
+                                        <a name="pay" class="btn btn-sm btn-primary" href="payment.php">
+                                            Pay
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-
-                        <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" disabled="disabled" 
-                                    type="checkbox">
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" disabled="disabled" type="checkbox">
                                 <div class="w-100 ms-3">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
                                         <span>Approved</span>
@@ -509,13 +695,205 @@ if (mysqli_num_rows($results) == 1) {
                                 </div>
                             </div>
                             <?php
-                            
 
-}
-else { ?>
+            }
 
+            if ($phase == 2) {
+?>
+                            <form method="post" action="applyform.php">
+
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <input class="form-check-input m-0" disabled="disabled" checked="checked"
+                                        type="checkbox">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <span>Apply for Hostel</span>
+                                            <button name="pdf" type="submit" class="btn btn-sm btn-primary">See
+                                                PDF</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
                             <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" disabled="disabled" type="checkbox"
+                                    checked="checked">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Pay for Hostel</span>
+                                        <!-- <a name="pay" class="btn btn-sm btn-primary" href="payment.php">
+                            Paid
+                        </a> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" disabled="disabled" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Approved</span>
+                                        <!-- <button name="pdf" type="submit" class="btn btn-sm btn-primary" href="applyform.php">See PDF</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+
+
+            }
+
+            if ($phase == 3) {
+?>
+
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" disabled="disabled" checked="checked"
+                                    type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Apply for Hostel</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" disabled="disabled" type="checkbox"
+                                    checked="checked">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Pay for Hostel</span>
+                                        <!-- <a name="pay" class="btn btn-sm btn-primary" href="payment.php">
+                                        Paid
+                                    </a> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <form method="post" action="#form">
+
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <input class="form-check-input m-0" disabled="disabled" checked="checked"
+                                        type="checkbox">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <span>Approved</span>
+                                            <button name="pdf" type="submit" class="btn btn-sm btn-primary">See
+                                                PDF</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="post" action="#form">
+
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <input class="form-check-input m-0" disabled="disabled" 
+                                        type="checkbox">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <span>Room Details</span>
+                                            <!-- <button name="roomdetails" type="submit" class="btn btn-sm btn-primary">Insert</button> -->
+                                            <a name="roomdetails" class="btn btn-sm btn-primary"
+                                                href="roomdetails.php">Insert</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- <div class="d-flex align-items-center border-bottom py-2">
+                            <input class="form-check-input m-0" disabled="disabled" type="checkbox">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                    <span>Approved</span>
+                                     <button name="pdf" type="submit" class="btn btn-sm btn-primary" href="applyform.php">See PDF</button> -->
+                        </div>
+                    </div>
+                </div>
+                <?php
+
+
+            }
+            if ($phase == 4) {
+?>
+
+                <div class="d-flex align-items-center border-bottom py-2">
+                    <input class="form-check-input m-0" disabled="disabled" checked="checked" type="checkbox">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <span>Apply for Hostel</span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center border-bottom py-2">
+                    <input class="form-check-input m-0" disabled="disabled" type="checkbox" checked="checked">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <span>Pay for Hostel</span>
+                            <!-- <a name="pay" class="btn btn-sm btn-primary" href="payment.php">
+                                                        Paid
+                                                    </a> -->
+                        </div>
+                    </div>
+                </div>
+                <form method="post" action="#form">
+
+                    <div class="d-flex align-items-center border-bottom py-2">
+                        <input class="form-check-input m-0" disabled="disabled" checked="checked" type="checkbox">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span>Approved</span>
+                                <button name="pdf" type="submit" class="btn btn-sm btn-primary">See
+                                    PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form method="post" action="#form">
+
+                    <div class="d-flex align-items-center border-bottom py-2">
+                        <input class="form-check-input m-0" disabled="disabled" checked="checked" type="checkbox">
+                        <div class="w-100 ms-3">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                <span>Room Details</span>
+                                <!-- <button name="roomdetails" type="submit" class="btn btn-sm btn-primary">Insert</button> -->
+                                <a name="roomdetails" class="btn btn-sm btn-primary" href="roomdetails.php">Update</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- <div class="d-flex align-items-center border-bottom py-2">
+                                            <input class="form-check-input m-0" disabled="disabled" type="checkbox">
+                                            <div class="w-100 ms-3">
+                                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                                    <span>Approved</span>
+                                                     <button name="pdf" type="submit" class="btn btn-sm btn-primary" href="applyform.php">See PDF</button> -->
+            </div>
+        </div>
+    </div>
+    <?php
+
+
+            }
+        }
+    }
+    else {
+?>
+    <div class="d-flex align-items-center border-bottom py-2">
+        <input class="form-check-input m-0" disabled="disabled" type="checkbox">
+        <div class="w-100 ms-3">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+                <span>Apply for Hostel</span>
+                <a class="btn btn-sm btn-primary" href="applyform.php">Detail</a>
+            </div>
+        </div>
+    </div>
+    <?php
+    }
+
+
+
+?>
+
+
+    <!-- <div class="d-flex align-items-center border-bottom py-2">
                                 <input class="form-check-input m-0" disabled="disabled" type="checkbox">
                                 <div class="w-100 ms-3">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
@@ -523,13 +901,10 @@ else { ?>
                                         <a class="btn btn-sm btn-primary" href="applyform.php">Detail</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <?php }
 
-// if user exists }
-?>
-                            <!-- <div class="d-flex align-items-center border-bottom py-2">
+    <!-- <div class="d-flex align-items-center border-bottom py-2">
                                 <input class="form-check-input m-0" type="checkbox">
                                 <div class="w-100 ms-3">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
@@ -565,13 +940,13 @@ else { ?>
                                     </div>
                                 </div>
                             </div> -->
-                        </div>
-                    </div>
+    </div>
+    </div>
 
-                    <?php
+    <?php
 }
 ?>
-                    <!-- <div class="col-sm-12 col-md-6 col-xl-4">
+    <!-- <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-light rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
                                 <h6 class="mb-0">To Do List</h6>
@@ -628,35 +1003,39 @@ else { ?>
                             </div>
                         </div>
                     </div> -->
+    </div>
+
+    </div>
+    <!-- Widgets End -->
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">HMS</a>, All Right Reserved.
                 </div>
-
-            </div>
-            <!-- Widgets End -->
-
-
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">HMS</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="#">FourA's</a>
-                            </br>
-                            Distributed By <a class="border-bottom" href="#" target="_blank">Impeccable Vision</a>
-                        </div>
-                    </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="#">FourA's</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="#" target="_blank">Impeccable Vision</a>
                 </div>
             </div>
-            <!-- Footer End -->
         </div>
-        <!-- Content End -->
+    </div>
+    <!-- Footer End -->
+    </div>
+    <!-- Content End -->
 
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->
@@ -672,6 +1051,7 @@ else { ?>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
 </body>
 
 </html>

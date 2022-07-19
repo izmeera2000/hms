@@ -11,8 +11,9 @@ if (isset($_GET['logout'])) {
     header("location: signin.php");
 }
 if ($_SESSION['level'] != 2) {
+    session_destroy();
     unset($_SESSION['username']);
-    header("location: index.php");
+    header("location: signin.php");
 
 
 
@@ -289,233 +290,98 @@ if ($_SESSION['level'] == 2) { // if user exists
             <!-- Widgets Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
+
                     <div class="col-sm-12 col-xl-6">
 
                         <div class="bg-light rounded h-100 p-4">
 
-                            <h6 class="mb-4">Room Application Form</h6>
-                            <div id ="error" class="alert alert-danger  alert-dismissible fade collapse"role="alert">
-                                <i class="fa fa-exclamation-circle me-2"></i>Error in uploading
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            <div class="mb-3 " >
-                                <img id="thumb" class="mx-auto d-block"  width="132.28346457" height="188.97637795"  />
+                            <h6 class="mb-4">Room Details</h6>
 
-                            </div>
 
-                            <form method="post" action="applyform.php" enctype="multipart/form-data">
-                                <div class="mb-3">
-                                    <label for="image" class="form-label">Picture</label>
-                                    <input name="image" class="form-control" type="file" id="image" onchange="preview()">
-                                </div>
+
+                            <form method="post" action="roomdetails.php" enctype="multipart/form-data">
                                 <div class="form-floating mb-3">
-                                    <input name="name" type="text" class="form-control" id="floating4" required>
-                                    <label for="floating4">Name</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="ndp" type="number" class="form-control" id="floating3" required>
-                                    <label for="floating3">NDP</label>
+                                    <input name="bednum" type="text" class="form-control" id="floating4" required>
+                                    <label for="floating4">Bed Number</label>
                                 </div>
 
+                                <!-- 
                                 <div class="form-floating mb-3">
                                     <input name="sem" type="number" class="form-control" id="floating20" required>
                                     <label for="floating20">Semester</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input name="phonen" type="text" class="form-control" id="floating18" required>
-                                    <label for="floating18">Phone Number </label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input name="hphonen" type="text" class="form-control" id="floating17" required>
-                                    <label for="floating17">Phone Number (Home)</label>
-                                </div>
-
-
-                                <div class="form-floating mb-3">
-                                    <input name="ic" type="text" class="form-control" id="floating5" required>
-                                    <label for="floating5">IC Number</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" name="gender" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                    <label for="floatingSelect">Gender</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" name="race" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                        <option value="Malay">Malay</option>
-                                        <option value="Chinese">Chinese</option>
-                                        <option value="Indian">Indian</option>
-                                        <option value="Others">Others</option>
-
-                                    </select>
-                                    <label for="floatingSelect">Race</label>
-                                </div>
-<!-- 
-                                <div class="form-floating mb-3">
-                                    <input name="race" type="text" class="form-control" id="floating9" required>
-                                    <label for="floating9">Race</label>
                                 </div> -->
-                                <div class="form-floating mb-3">
-                                    <input name="religion" type="text" class="form-control" id="floating10" required>
-                                    <label for="floating10">Religion</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="coursecode" type="text" class="form-control" id="floating6" required>
-                                    <label for="floating6">Course Code</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="course" type="text" class="form-control" id="floating61" required>
-                                    <label for="floating61">Course</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="session_num" type="text" class="form-control" id="floating7" required>
-                                    <label for="floating7">Admission Session</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="address" type="text" class="form-control" id="floating21" required>
-                                    <label for="floating21">Address</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input name="fathern" type="text" class="form-control" id="floating11" required>
-                                    <label for="floating11">Father's Name</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="fatherc" type="text" class="form-control" id="floating12" required>
-                                    <label for="floating12">Father's Career</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="fatherp" type="text" class="form-control" id="floating13" required>
-                                    <label for="floating13">Father's Phone Number</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input name="mothern" type="text" class="form-control" id="floating14" required>
-                                    <label for="floating14">Mother's Name</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="motherc" type="text" class="form-control" id="floating15" required>
-                                    <label for="floating15">Mother's Career</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="motherp" type="text" class="form-control" id="floating16" required>
-                                    <label for="floating16">Mother's Phone Number</label>
-                                </div>
-
-
-                                <!-- <div class="form-floating mb-3">
-                                    <input name="room_number" type="text" class="form-control" id="floating1"
-                                         required>
-                                    <label for="floating1">Room Number</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input name="bed_number" type="text" class="form-control" id="floating2"
-                                         required>
-                                    <label for="floating2">Bed Number</label>
-                                </div> -->
-
-
-
-                                <!-- <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Password">
-                                <label for="floatingPassword">Password</label>
-                            </div> -->
-                                <!-- <div class="form-floating mb-3">
-                                <select class="form-select" id="floatingSelect"
-                                    aria-label="Floating label select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                                <label for="floatingSelect">Works with selects</label>
-                            </div> -->
-                                <!-- <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
-                                    style="height: 150px;"></textarea>
-                                <label for="floatingTextarea">Comments</label>
-                            </div> -->
-                                <!-- <hr>
 
                                 <div class="form-check">
                                     <input class="form-check-input" name="roomkey" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Kunci Bilik
+                                        id="flexCheckDefault1">
+                                    <label class="form-check-label" for="flexCheckDefault1">
+                                        Room Key
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="bed" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Tilam
+                                        id="flexCheckDefault2">
+                                    <label class="form-check-label" for="flexCheckDefault2">
+                                        Bed
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="pillow" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Bantal
+                                        id="flexCheckDefault3">
+                                    <label class="form-check-label" for="flexCheckDefault3">
+                                        Pillow
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="table" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Meja
+                                        id="flexCheckDefault4">
+                                    <label class="form-check-label" for="flexCheckDefault4">
+                                        Table
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="chair" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Kerusi
+                                        id="flexCheckDefault5">
+                                    <label class="form-check-label" for="flexCheckDefault5">
+                                        Chair
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="closet" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Almari
+                                        id="flexCheckDefault6">
+                                    <label class="form-check-label" for="flexCheckDefault6">
+                                        Closet
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="hanger" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Penyidai Baju
+                                        id="flexCheckDefault7">
+                                    <label class="form-check-label" for="flexCheckDefault7">
+                                        Clothes Hanger
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="trashcan" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Bakul Sampah
+                                        id="flexCheckDefault8">
+                                    <label class="form-check-label" for="flexCheckDefault8">
+                                        Trash Can
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" name="mat" type="checkbox" value="1"
-                                        id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Alas Kaki
+                                        id="flexCheckDefault9">
+                                    <label class="form-check-label" for="flexCheckDefault9">
+                                        Mat
                                     </label>
                                 </div>
-                                <hr> -->
-
-                                <button name="upload" type="submit"
+                                <hr>
+                                <button name="roomdetails" type="submit"
                                     class="btn btn-primary py-3 w-100 mb-4">Apply</button>
 
                             </form>
                         </div>
                     </div>
+
                 </div>
                 <!-- Widgets End -->
 
