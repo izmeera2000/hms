@@ -229,6 +229,8 @@ function SetCompression($compress)
 		$this->compress = false;
 }
 
+
+
 function SetTitle($title, $isUTF8=false)
 {
 	// Title of document

@@ -296,6 +296,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                         <div class="bg-light rounded h-100 p-4">
 
                             <h6 class="mb-4">Room Details</h6>
+                            <?php include('errors.php'); ?>
 
 
 

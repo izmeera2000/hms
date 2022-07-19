@@ -293,13 +293,19 @@ if ($_SESSION['level'] == 1) { // if user exists
             <!-- Sales Chart End -->
 
 
-
             <?php
 if ($_SESSION['level'] == 1) { // if user exists
 ?>
             <!-- Recent Sales Start -->
             <!-- Sale & Revenue Start -->
+            
             <div class="container-fluid pt-4 px-4">
+                <?php    if (isset($_SESSION['first'])) { // if user exists
+        echo $_SESSION['first'];
+        unset($_SESSION['first']);    }
+?>
+                        <?php include('errors.php'); ?>
+
                 <div class="row g-4">
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
@@ -365,9 +371,10 @@ if ($_SESSION['level'] == 1) { // if user exists
             <!-- Sale & Revenue End -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
+                    
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Recent Application</h6>
-                        <a href="">Show All</a>
+                        <!-- <a href="">Show All</a> -->
                     </div>
 
                     <div class="table-responsive">
@@ -399,13 +406,14 @@ if ($_SESSION['level'] == 1) { // if user exists
             echo '<td>' . $row["ndp"] . '</td>';
             echo '<td>' . $row["course"] . '</td>';
             echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["id"] . '" name="id" type="hidden">
-                <button class="btn btn-sm btn-primary" type="submit" name="pdf">Detail</button></form></td>';
+                <button class="btn btn-sm btn-primary" type="submit" name="pdf2">Detail</button></form></td>';
             // echo '<td><a class="btn btn-sm btn-primary" href="">Approve</a></td>';
             echo '<td><a href="' . $row["rpayment"] . '"><button class="btn btn-sm btn-primary" >Detail</button><a/>    </td>';
 
             // echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["ndp"] . '" name="ndp" type="hidden">
             //     <button class="btn btn-sm btn-primary" type="submit" name="approve">Approve</button></form></td>';
-            echo '<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Approve</button></td>';
+            echo '<td><button type="button" class="btn btn-primary  m-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Approve</button></td>';
+            
             echo '</tr>';
 
 
@@ -425,7 +433,7 @@ if ($_SESSION['level'] == 1) { // if user exists
             echo '</div>';
             echo '<div class="form-floating mb-3">';
             echo '<input name="tpaid" type="text" class="form-control" id="floating41" required>';
-            echo '<label for="floating41">Total Paid</label>';
+            echo '<label for="floating41">Total Paid(RM)</label>';
             echo '</div>';
             echo '</div>';
             echo '<div class="modal-footer">';
@@ -460,7 +468,7 @@ if ($_SESSION['level'] == 1) { // if user exists
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Recent Final Application</h6>
-                        <a href="">Show All</a>
+                        <!-- <a href="">Show All</a> -->
                     </div>
 
                     <div class="table-responsive">
@@ -496,38 +504,10 @@ if ($_SESSION['level'] == 1) { // if user exists
             // echo '<td><a class="btn btn-sm btn-primary" href="">Approve</a></td>';
             // echo '<td><a href="' . $row["rpayment"] . '"><button class="btn btn-sm btn-primary" >Detail</button><a/>    </td>';
 
-            // echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["ndp"] . '" name="ndp" type="hidden">
-            //     <button class="btn btn-sm btn-primary" type="submit" name="approve">Approve</button></form></td>';
-            echo '<td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Approve</button></td>';
-            echo '</tr>';
-
-
-            echo '<form method="post" action="index.php" enctype="multipart/form-data">';
-            echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-            echo '<div class="modal-dialog modal-dialog-centered">';
-            echo '<div class="modal-content">';
-            echo '<div class="modal-header">';
-            echo '<h5 class="modal-title" id="exampleModalLabel">Receipt Details</h5>';
-            echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-            echo '</div>';
-            echo '<div class="modal-body">';
-            echo '<div class="form-floating mb-3">';
-            echo '<input type="hidden" name="ndp" value="' . $row["ndp"] . '">';
-            echo '<input name="number" type="text" class="form-control" id="floating4" required>';
-            echo '<label for="floating4">Receipt Num.</label>';
-            echo '</div>';
-            echo '<div class="form-floating mb-3">';
-            echo '<input name="tpaid" type="text" class="form-control" id="floating41" required>';
-            echo '<label for="floating41">Total Paid</label>';
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="modal-footer">';
-            echo '<button class="btn btn-sm btn-primary" type="submit" name="approve">Save changes</button>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</form>';
+            echo '<td><form method="post" action="index.php"><input class="form-check-input m-0" value="' . $row["ndp"] . '" name="ndp" type="hidden">
+                <button class="btn btn-sm btn-primary" type="submit" name="approve2">Approve</button></form></td>';
+            
+           
 
         }
     }
@@ -620,6 +600,12 @@ if ($_SESSION['level'] == 1) { // if user exists
                     <?php
 if ($_SESSION['level'] == 2) { // if user exists
 ?>
+                    <?php    if (isset($_SESSION['first'])) { // if user exists
+        echo $_SESSION['first'];
+        unset($_SESSION['first']);    }
+?>
+
+
                     <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-light rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -784,8 +770,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                             <form method="post" action="#form">
 
                                 <div class="d-flex align-items-center border-bottom py-2">
-                                    <input class="form-check-input m-0" disabled="disabled" 
-                                        type="checkbox">
+                                    <input class="form-check-input m-0" disabled="disabled" type="checkbox">
                                     <div class="w-100 ms-3">
                                         <div class="d-flex w-100 align-items-center justify-content-between">
                                             <span>Room Details</span>
@@ -872,6 +857,68 @@ if ($_SESSION['level'] == 2) { // if user exists
 
 
             }
+            if ($phase == 5) {
+                ?>
+                
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <input class="form-check-input m-0" disabled="disabled" checked="checked" type="checkbox">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <span>Apply for Hostel</span>
+                
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="d-flex align-items-center border-bottom py-2">
+                                    <input class="form-check-input m-0" disabled="disabled" type="checkbox" checked="checked">
+                                    <div class="w-100 ms-3">
+                                        <div class="d-flex w-100 align-items-center justify-content-between">
+                                            <span>Pay for Hostel</span>
+                                            <!-- <a name="pay" class="btn btn-sm btn-primary" href="payment.php">
+                                                                        Paid
+                                                                    </a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <form method="post" action="#form">
+                
+                                    <div class="d-flex align-items-center border-bottom py-2">
+                                        <input class="form-check-input m-0" disabled="disabled" checked="checked" type="checkbox">
+                                        <div class="w-100 ms-3">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <span>Approved</span>
+                                                <button name="pdf" type="submit" class="btn btn-sm btn-primary">See
+                                                    PDF</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form method="post" action="#form">
+                
+                                    <div class="d-flex align-items-center border-bottom py-2">
+                                        <input class="form-check-input m-0" disabled="disabled" checked="checked" type="checkbox">
+                                        <div class="w-100 ms-3">
+                                            <div class="d-flex w-100 align-items-center justify-content-between">
+                                                <span>Room Details</span>
+                                                <!-- <button name="roomdetails" type="submit" class="btn btn-sm btn-primary">Insert</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- <div class="d-flex align-items-center border-bottom py-2">
+                                                            <input class="form-check-input m-0" disabled="disabled" type="checkbox">
+                                                            <div class="w-100 ms-3">
+                                                                <div class="d-flex w-100 align-items-center justify-content-between">
+                                                                    <span>Approved</span>
+                                                                     <button name="pdf" type="submit" class="btn btn-sm btn-primary" href="applyform.php">See PDF</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                
+                
+                            }
         }
     }
     else {
@@ -940,12 +987,12 @@ if ($_SESSION['level'] == 2) { // if user exists
                                     </div>
                                 </div>
                             </div> -->
-    </div>
+
     </div>
 
-    <?php
-}
-?>
+    </div>
+
+
     <!-- <div class="col-sm-12 col-md-6 col-xl-4">
                         <div class="h-100 bg-light rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
@@ -1003,9 +1050,16 @@ if ($_SESSION['level'] == 2) { // if user exists
                             </div>
                         </div>
                     </div> -->
+
+
     </div>
 
     </div>
+    
+
+    <?php
+}
+?>
     <!-- Widgets End -->
 
     <!-- Button trigger modal -->

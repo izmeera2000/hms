@@ -294,10 +294,8 @@ if ($_SESSION['level'] == 2) { // if user exists
                         <div class="bg-light rounded h-100 p-4">
 
                             <h6 class="mb-4">Room Application Form</h6>
-                            <div id ="error" class="alert alert-danger  alert-dismissible fade collapse"role="alert">
-                                <i class="fa fa-exclamation-circle me-2"></i>Error in uploading
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
+                            <?php include('errors.php'); ?>
+
                             <div class="mb-3 " >
                                 <img id="thumb" class="mx-auto d-block"  width="132.28346457" height="188.97637795"  />
 
@@ -407,6 +405,14 @@ if ($_SESSION['level'] == 2) { // if user exists
                                 <div class="form-floating mb-3">
                                     <input name="motherp" type="text" class="form-control" id="floating16" required>
                                     <label for="floating16">Mother's Phone Number</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input name="condition" type="text" class="form-control" id="floating161" >
+                                    <label for="floating161">Condition / Disease</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input name="source" type="text" class="form-control" id="floating162" >
+                                    <label for="floating162">Condition / Disease Source</label>
                                 </div>
 
 

@@ -561,13 +561,15 @@ if ($_GET['h'] == 'b') { // if user exists
 
         if ($rowb['occ'] == 0) {
             echo '<div class="col-sm-6 col-xl-3 ">';
-            echo '<div class="bg-light rounded d-flex align-items-center justify-content-between p-4">';
+            echo '<div class="bg-light rounded d-flex align-items-center justify-content-between p-4" data-bs-toggle="modal" data-bs-target="#exampleModal">';
             echo '<div class="ms-3 ">';
             echo '<p class="mb-0">' . $rowb['room_num'] . '</p>';
             echo '<h6 class="mb-0">' . $rowb['occ'] . '</h6>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
+
+            
         }
         if ($rowb['occ'] == 1) {
             echo '<div class="col-sm-6 col-xl-3 ">';
@@ -1182,7 +1184,33 @@ if ($_GET['h'] == 'd') { // if user exists
 
 
 
+<?php 
 
+echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+echo '<div class="modal-dialog modal-dialog-centered">';
+echo '<div class="modal-content">';
+echo '<div class="modal-header">';
+echo '<h5 class="modal-title" id="exampleModalLabel">Receipt Details</h5>';
+echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+echo '</div>';
+echo '<div class="modal-body">';
+echo '<div class="form-floating mb-3">';
+echo '<input type="hidden" name="ndp" value="' . $row["ndp"] . '">';
+echo '<input name="number" type="text" class="form-control" id="floating4" required>';
+echo '<label for="floating4">Receipt Num.</label>';
+echo '</div>';
+echo '<div class="form-floating mb-3">';
+echo '<input name="tpaid" type="text" class="form-control" id="floating41" required>';
+echo '<label for="floating41">Total Paid(RM)</label>';
+echo '</div>';
+echo '</div>';
+echo '<div class="modal-footer">';
+echo '<button class="btn btn-sm btn-primary" type="submit" name="approve">Save changes</button>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+?>
 
             <!-- Recent Sales End -->
 

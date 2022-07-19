@@ -68,7 +68,10 @@ if (isset($_POST['reg_user'])) {
         $_SESSION['username'] = $username;
         $_SESSION['level'] = $level;
 
-        $_SESSION['success'] = "You are now logged in";
+        $_SESSION['first'] = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i>You have successfully signed in for the first time!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>';
         header('location: index.php');
     }
 }
@@ -78,10 +81,16 @@ if (isset($_POST['login_user'])) {
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
     if (empty($username)) {
-        array_push($errors, "Username is required");
+        array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i>Username is required
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>');
     }
     if (empty($password)) {
-        array_push($errors, "Password is required");
+        array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i>Password is required
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>');
     }
 
     if (count($errors) == 0) {
@@ -97,10 +106,15 @@ if (isset($_POST['login_user'])) {
 
             }
             $_SESSION['success'] = "You are now logged in";
+
             header('location: index.php');
+
         }
         else {
-            array_push($errors, "Wrong username/password combination");
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>Wrong password
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>');
         }
     }
 }
@@ -124,10 +138,22 @@ if (isset($_POST['pdf'])) {
         $ic = $row['ic'];
         $coursecode = $row['coursecode'];
         $course = $row['course'];
-        $session_num = $row['adm_date'];        
+        $session_num = $row['adm_date'];
         $sem = $row['sem'];
-        $rkey = $row['rkey'];
 
+        $rkey = $row['rkey'];
+        $rbed = $row['rbed'];
+        $rpillow = $row['rpillow'];
+        $rtable = $row['rtable'];
+        $rchair = $row['rchair'];
+        $rcloset = $row['rcloset'];
+        $rclothhanger = $row['rclothhanger'];
+        $rtrashcan = $row['rtrashcan'];
+        $rmat = $row['rmat'];
+
+        $rtotalprice = $row['rtotalprice'];
+        $rpaydate = $row['rpaydate'];
+        $rnumber = $row['rnumber'];
 
 
         $gender = $row['rgender'];
@@ -146,8 +172,12 @@ if (isset($_POST['pdf'])) {
         $address = $row['raddress'];
 
         $phonen = $row['rphonenum'];
-        $hphonen = $row['rhomephonenum'];        
-        $b = html_entity_decode('&#10003;', ENT_HTML401,'ISO-8859-1');
+        $hphonen = $row['rhomephonenum'];
+
+        $rcondition = $row['rcondition'];
+        $rsource = $row['rsource'];
+
+        $b = html_entity_decode('&#10003;', ENT_HTML401, 'ISO-8859-1');
     }
     // initiate FPDI
     $pdf = new Fpdi();
@@ -203,14 +233,57 @@ if (isset($_POST['pdf'])) {
     $pdf->SetXY(132, 102.5);
     $pdf->Write(8, $session_num);
 
-    if ($rkey== 1) {
+    if ($rkey == 1) {
         $pdf->SetXY(106, 137.5);
         $pdf->Write(8, '/');
     }
 
+    if ($rbed == 1) {
+        $pdf->SetXY(106, 142);
+        $pdf->Write(8, '/');
+    }
+    if ($rpillow == 1) {
+        $pdf->SetXY(106, 146.5);
+        $pdf->Write(8, '/');
+    }
+    if ($rtable == 1) {
+        $pdf->SetXY(106, 151);
+        $pdf->Write(8, '/');
+    }
+    if ($rchair == 1) {
+        $pdf->SetXY(106, 155.5);
+        $pdf->Write(8, '/');
+    }
+    if ($rcloset == 1) {
+        $pdf->SetXY(106, 160);
+        $pdf->Write(8, '/');
+    }
+    if ($rclothhanger == 1) {
+        $pdf->SetXY(106, 164.5);
+        $pdf->Write(8, '/');
+    }
+    if ($rtrashcan == 1) {
+        $pdf->SetXY(106, 169);
+        $pdf->Write(8, '/');
+    }
+    if ($rmat == 1) {
+        $pdf->SetXY(106, 173.5);
+        $pdf->Write(8, '/');
+    }
 
+    if ($rtotalprice) {
+        $pdf->SetXY(86, 250.5);
+        $pdf->Write(8, 'RM' . $rtotalprice);
+    }
 
-
+    if ($rnumber) {
+        $pdf->SetXY(86, 255.5);
+        $pdf->Write(8, $rnumber);
+    }
+    if ($rpaydate) {
+        $pdf->SetXY(86, 260.5);
+        $pdf->Write(8, $rpaydate);
+    }
     $templateId = $pdf->importPage(2);
     $pdf->AddPage();
     $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
@@ -249,8 +322,36 @@ if (isset($_POST['pdf'])) {
     $pdf->Write(8, $motherp);
 
 
-    $pdf->SetXY(70, 111.3);
-    $pdf->Write(8, $address);
+    $das = str_split($address, 50);
+    $rownumber = count($das);
+
+    if ($rownumber == 3) {
+        $pdf->SetXY(70, 112.3);
+        $pdf->Write(8, $das[0]);
+
+        $pdf->SetXY(70, 120.3);
+        $pdf->Write(8, $das[1]);
+
+        $pdf->SetXY(70, 128.3);
+        $pdf->Write(8, $das[2]);
+    }
+    if ($rownumber == 2) {
+        $pdf->SetXY(70, 112.3);
+        $pdf->Write(8, $das[0]);
+
+        $pdf->SetXY(70, 120.3);
+        $pdf->Write(8, $das[1]);
+
+
+
+
+
+    
+}
+    if ($rownumber == 1) {
+        $pdf->SetXY(70, 112.3);
+        $pdf->Write(8, $das[0]);
+    }
 
     $pdf->SetXY(70, 136.3);
     $pdf->Write(8, $phonen);
@@ -263,7 +364,24 @@ if (isset($_POST['pdf'])) {
     $pdf->SetXY(70, 160.3);
     $pdf->Write(8, $sem);
 
+    $pdf->SetXY(110, 185.3);
+    if ($rcondition == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $rcondition);
+
+    }
+    $pdf->SetXY(110, 190.3);
+    if ($rsource == '0') {
+        $pdf->Write(8, '-');
+
+    }
+    else {
+        $pdf->Write(8, $rsource);
+
+    }
     $pdf->Output('I', $ndp . '-form.pdf');
     exit;
 
@@ -271,6 +389,7 @@ if (isset($_POST['pdf'])) {
 
 
 }
+
 
 if (isset($_POST['pdf2'])) {
     require_once('lib/fpdf/fpdf.php');
@@ -281,13 +400,33 @@ if (isset($_POST['pdf2'])) {
     $results = mysqli_query($db, $query);
     while ($row = mysqli_fetch_assoc($results)) {
 
+
+
         $room_number = $row['room_num'];
         $bed_number = $row['bed_num'];
         $ndp = $row['ndp'];
         $name = $row['name'];
+        $image = $row['image'];
         $ic = $row['ic'];
+        $coursecode = $row['coursecode'];
         $course = $row['course'];
         $session_num = $row['adm_date'];
+        $sem = $row['sem'];
+
+        $rkey = $row['rkey'];
+        $rbed = $row['rbed'];
+        $rpillow = $row['rpillow'];
+        $rtable = $row['rtable'];
+        $rchair = $row['rchair'];
+        $rcloset = $row['rcloset'];
+        $rclothhanger = $row['rclothhanger'];
+        $rtrashcan = $row['rtrashcan'];
+        $rmat = $row['rmat'];
+
+        $rtotalprice = $row['rtotalprice'];
+        $rpaydate = $row['rpaydate'];
+        $rnumber = $row['rnumber'];
+
 
         $gender = $row['rgender'];
         $race = $row['rrace'];
@@ -307,13 +446,20 @@ if (isset($_POST['pdf2'])) {
         $phonen = $row['rphonenum'];
         $hphonen = $row['rhomephonenum'];
 
+        $rcondition = $row['rcondition'];
+        $rsource = $row['rsource'];
+
+        $b = html_entity_decode('&#10003;', ENT_HTML401, 'ISO-8859-1');
     }
     // initiate FPDI
     $pdf = new Fpdi();
 
     // get the page count
-    $pdf->setSourceFile('doc/combinepdf2.pdf');
+    $pdf->setSourceFile('doc/combinepdf3.pdf');
     // iterate through all pages
+    $pdf->SetTitle($ndp . ' Application Form');
+    $pdf->SetCreator('ADTEC Taiping');
+    $pdf->SetSubject('Hostel Application Form');
 
     $templateId = $pdf->importPage(1);
 
@@ -323,29 +469,93 @@ if (isset($_POST['pdf2'])) {
 
     $pdf->SetFont('Arial', '', 11);
 
-    $pdf->SetXY(70, 71.3);
-    $pdf->Write(8, $room_number);
-    $pdf->SetXY(145, 71.3);
-    $pdf->Write(8, $bed_number);
+    $pdf->SetXY(58, 71.3);
+    if ($room_number == '0') {
+        $pdf->Write(8, '-');
 
-    $pdf->SetXY(70, 79);
+    }
+    else {
+        $pdf->Write(8, $room_number);
+
+    }
+    $pdf->SetXY(132, 71.3);
+
+    if ($bed_number == '0') {
+        $pdf->Write(8, '-');
+
+    }
+    else {
+        $pdf->Write(8, $bed_number);
+
+    }
+    $pdf->Image($image, 157, 75, 35, 'JPG');
+
+    $pdf->SetXY(58, 79);
     $pdf->Write(8, $ndp);
 
-    $pdf->SetXY(70, 87);
+    $pdf->SetXY(58, 87);
     $pdf->Write(8, $name);
 
-    $pdf->SetXY(70, 94.5);
+    $pdf->SetXY(58, 94.5);
     $pdf->Write(8, $ic);
 
-    $pdf->SetXY(70, 102.5);
-    $pdf->Write(8, $course);
+    $pdf->SetXY(58, 102.5);
+    $pdf->Write(8, $coursecode);
 
-    $pdf->SetXY(145, 102.5);
+    $pdf->SetXY(132, 102.5);
     $pdf->Write(8, $session_num);
 
-    $pdf->SetXY(145, 102.5);
-    $pdf->Write(8, $session_num);
+    if ($rkey == 1) {
+        $pdf->SetXY(106, 137.5);
+        $pdf->Write(8, '/');
+    }
 
+    if ($rbed == 1) {
+        $pdf->SetXY(106, 142);
+        $pdf->Write(8, '/');
+    }
+    if ($rpillow == 1) {
+        $pdf->SetXY(106, 146.5);
+        $pdf->Write(8, '/');
+    }
+    if ($rtable == 1) {
+        $pdf->SetXY(106, 151);
+        $pdf->Write(8, '/');
+    }
+    if ($rchair == 1) {
+        $pdf->SetXY(106, 155.5);
+        $pdf->Write(8, '/');
+    }
+    if ($rcloset == 1) {
+        $pdf->SetXY(106, 160);
+        $pdf->Write(8, '/');
+    }
+    if ($rclothhanger == 1) {
+        $pdf->SetXY(106, 164.5);
+        $pdf->Write(8, '/');
+    }
+    if ($rtrashcan == 1) {
+        $pdf->SetXY(106, 169);
+        $pdf->Write(8, '/');
+    }
+    if ($rmat == 1) {
+        $pdf->SetXY(106, 173.5);
+        $pdf->Write(8, '/');
+    }
+
+    if ($rtotalprice) {
+        $pdf->SetXY(86, 250.5);
+        $pdf->Write(8, 'RM' . $rtotalprice);
+    }
+
+    if ($rnumber) {
+        $pdf->SetXY(86, 255.5);
+        $pdf->Write(8, $rnumber);
+    }
+    if ($rpaydate) {
+        $pdf->SetXY(86, 260.5);
+        $pdf->Write(8, $rpaydate);
+    }
     $templateId = $pdf->importPage(2);
     $pdf->AddPage();
     $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
@@ -384,8 +594,36 @@ if (isset($_POST['pdf2'])) {
     $pdf->Write(8, $motherp);
 
 
-    $pdf->SetXY(70, 111.3);
-    $pdf->Write(8, $address);
+    $das = str_split($address, 50);
+    $rownumber = count($das);
+
+    if ($rownumber == 3) {
+        $pdf->SetXY(70, 112.3);
+        $pdf->Write(8, $das[0]);
+
+        $pdf->SetXY(70, 120.3);
+        $pdf->Write(8, $das[1]);
+
+        $pdf->SetXY(70, 128.3);
+        $pdf->Write(8, $das[2]);
+    }
+    if ($rownumber == 2) {
+        $pdf->SetXY(70, 112.3);
+        $pdf->Write(8, $das[0]);
+
+        $pdf->SetXY(70, 120.3);
+        $pdf->Write(8, $das[1]);
+
+
+
+
+
+    
+}
+    if ($rownumber == 1) {
+        $pdf->SetXY(70, 112.3);
+        $pdf->Write(8, $das[0]);
+    }
 
     $pdf->SetXY(70, 136.3);
     $pdf->Write(8, $phonen);
@@ -396,10 +634,35 @@ if (isset($_POST['pdf2'])) {
     $pdf->SetXY(70, 152.3);
     $pdf->Write(8, $course);
     $pdf->SetXY(70, 160.3);
-    $pdf->Write(8, $session_num);
-    // Output the new PDF
-    $pdf->Output();
+    $pdf->Write(8, $sem);
+
+    $pdf->SetXY(110, 185.3);
+    if ($rcondition == '0') {
+        $pdf->Write(8, '-');
+
+    }
+    else {
+        $pdf->Write(8, $rcondition);
+
+    }
+    $pdf->SetXY(110, 190.3);
+    if ($rsource == '0') {
+        $pdf->Write(8, '-');
+
+    }
+    else {
+        $pdf->Write(8, $rsource);
+
+    }
+    $pdf->Output('I', $ndp . '-form.pdf');
+    exit;
+
+
+
+
 }
+
+
 if (isset($_POST['upload'])) {
 
 
@@ -419,6 +682,7 @@ if (isset($_POST['upload'])) {
     $rdate2 = 0;
     $room_number = '0';
     $bed_number = 0;
+
 
     $image = mysqli_real_escape_string($db, $_POST['address']);
     $name = mysqli_real_escape_string($db, $_POST['name']);
@@ -474,6 +738,12 @@ if (isset($_POST['upload'])) {
     if (!empty($_POST['mat'])) {
         $rmat = $_POST['mat'];
     }
+    if (!empty($_POST['condition'])) {
+        $rcondition = $_POST['condition'];
+    }
+    if (!empty($_POST['source'])) {
+        $rsource = $_POST['source'];
+    }
 
     $target_dir = "img/application/";
     $target_file = $target_dir . $ndp . ".jpg";
@@ -495,8 +765,12 @@ if (isset($_POST['upload'])) {
         }
         else {
 
-            echo $query;
-            echo '<script> $("#error").show();</script>';
+
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+
 
         }
 
@@ -569,7 +843,7 @@ if (isset($_POST['approve'])) {
 
     $ndp = $_POST['ndp'];
     $tpaid = $_POST['tpaid'];
-    $date = date("d-m-Y");
+    $date = date("d/m/Y");
 
     $query5 = "SELECT * FROM application WHERE ndp='$ndp'";
 
@@ -796,6 +1070,102 @@ if (isset($_POST['approve'])) {
 
 }
 
+if (isset($_POST['approve2'])) {
+
+
+
+
+    $ndp1 = $_POST['ndp'];
+
+
+    $query5 = "SELECT * FROM application WHERE ndp='$ndp1'";
+
+    $results5 = mysqli_query($db, $query5);
+
+    while ($row5 = mysqli_fetch_assoc($results5)) {
+
+        $username = $row5['username'];
+        $image = $row5['image'];
+        $ndp = $row5['ndp'];
+        $sem = $row5['sem'];
+        $room_num = $row5['room_num'];
+        $bed_num = $row5['bed_num'];
+        $name = $row5['name'];
+        $rgender = $row5['rgender'];
+        $rrace = $row5['rrace'];
+        $rreligion = $row5['rreligion'];
+        $rfname = $row5['rfname'];
+        $rfcareer = $row5['rfcareer'];
+        $rfphonenum = $row5['rfphonenum'];
+        $rmname = $row5['rmname'];
+        $rmcareer = $row5['rmcareer'];
+        $rmphonenum = $row5['rmphonenum'];
+        $raddress = $row5['raddress'];
+        $rhomephonenum = $row5['rhomephonenum'];
+        $rphonenum = $row5['rphonenum'];
+        $ic = $row5['ic'];
+        $course = mysqli_real_escape_string($db, $row5['course']);
+        $coursecode = $row5['coursecode'];
+        $adm_date = $row5['adm_date'];
+
+
+        $user_check_query = "SELECT * FROM student WHERE ndp='$ndp1' LIMIT 1";
+        $result = mysqli_query($db, $user_check_query);
+        $user = mysqli_fetch_assoc($result);
+        if ($user) { // if user exists
+   
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>Student already exist
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>');
+            
+    
+ 
+    
+        }
+        else {
+
+        $query = "INSERT INTO student (username, image, ndp , sem, room_num, bed_num,name , rgender, rrace, rreligion,
+        rfname, rfcareer, rfphonenum, rmname, rmcareer, rmphonenum, raddress, rhomephonenum, rphonenum, ic , course ,coursecode ,adm_date) 
+                                VALUES('$username','$image','$ndp','$sem','$room_num','$bed_num','$name','$rgender','$rrace','$rreligion','$rfname','$rfcareer','$rfphonenum','$rmname','$rmcareer','$rmphonenum','$raddress','$rhomephonenum','$rphonenum','$ic','$course',
+        '$coursecode','$adm_date')";
+        if (mysqli_query($db, $query)) {
+
+            $query2 = "UPDATE application SET phase='5'  WHERE ndp='$ndp1'";
+            if (mysqli_query($db, $query2)) {
+
+                array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>Success 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+
+            }
+            else {
+                array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+
+            }
+        }
+        else
+
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i> Error sending to database
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>');
+
+
+    }}
+}
+
+
+
+
+
+
+
+
 if (isset($_POST['roomdetails'])) {
 
 
@@ -862,8 +1232,10 @@ if (isset($_POST['roomdetails'])) {
     // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 
     else {
-        echo 'failb';
-        echo '<script> $("#error").show();</script>';
+        array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>');
 
 
     }
