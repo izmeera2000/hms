@@ -309,7 +309,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                             <form method="post" action="payment.php" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Image</label>
-                                    <input name="image" class="form-control" type="file" id="image">
+                                    <input name="image" class="form-control" type="file" id="image" required>
                                 </div>
 
                                 <!-- 

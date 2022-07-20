@@ -313,10 +313,18 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <div class="ms-3">
                                 <p class="mb-2">Hostel A</p>
                                 <?php
-    $querya = "SELECT room_num FROM application WHERE room_num LIKE '%a%'  ";
-    $resultsa = mysqli_query($db, $querya);
-    $rowa = mysqli_num_rows($resultsa);
-    echo '<h6 class="mb-0">' . $rowa . '/100</h6>';
+    $query1a = "SELECT room_num FROM room WHERE room_num LIKE '%a___%' AND occ='1' ";
+    $results1a = mysqli_query($db, $query1a);
+    $row1a = mysqli_num_rows($results1a);
+    $totala = 0 + $row1a;
+
+
+    $query2a = "SELECT room_num FROM room WHERE room_num LIKE '%a___%' AND occ='2' ";
+    $results2a = mysqli_query($db, $query2a);
+    $row2a = mysqli_num_rows($results2a);
+    $totala = $totala + ($row2a * 2);
+
+    echo '<h6 class="mb-0">' . $totala . '/100</h6>';
 ?>
 
 
@@ -329,10 +337,18 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <div class="ms-3">
                                 <p class="mb-2">Hostel B</p>
                                 <?php
-    $queryb = "SELECT room_num FROM application WHERE room_num LIKE '%b%'  ";
-    $resultsb = mysqli_query($db, $queryb);
-    $rowb = mysqli_num_rows($resultsb);
-    echo '<h6 class="mb-0">' . $rowb . '/100</h6>';
+    $query1a = "SELECT room_num FROM room WHERE room_num LIKE '%b___%' AND occ='1' ";
+    $results1a = mysqli_query($db, $query1a);
+    $row1a = mysqli_num_rows($results1a);
+    $totala = 0 + $row1a;
+
+
+    $query2a = "SELECT room_num FROM room WHERE room_num LIKE '%b___%' AND occ='2' ";
+    $results2a = mysqli_query($db, $query2a);
+    $row2a = mysqli_num_rows($results2a);
+    $totala = $totala + ($row2a * 2);
+
+    echo '<h6 class="mb-0">' . $totala . '/100</h6>';
 ?>
                             </div>
                         </div>
@@ -343,10 +359,18 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <div class="ms-3">
                                 <p class="mb-2">Hostel C</p>
                                 <?php
-    $queryc = "SELECT room_num FROM application WHERE room_num LIKE '%c%'  ";
-    $resultsc = mysqli_query($db, $queryc);
-    $rowc = mysqli_num_rows($resultsc);
-    echo '<h6 class="mb-0">' . $rowc . '/100</h6>';
+    $query1a = "SELECT room_num FROM room WHERE room_num LIKE '%c___%' AND occ='1' ";
+    $results1a = mysqli_query($db, $query1a);
+    $row1a = mysqli_num_rows($results1a);
+    $totala = 0 + $row1a;
+
+
+    $query2a = "SELECT room_num FROM room WHERE room_num LIKE '%c___%' AND occ='2' ";
+    $results2a = mysqli_query($db, $query2a);
+    $row2a = mysqli_num_rows($results2a);
+    $totala = $totala + ($row2a * 2);
+
+    echo '<h6 class="mb-0">' . $totala . '/100</h6>';
 ?>
                             </div>
                         </div>
@@ -357,10 +381,18 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <div class="ms-3">
                                 <p class="mb-2">Hostel D</p>
                                 <?php
-    $queryd = "SELECT room_num FROM application WHERE room_num LIKE '%d%'  ";
-    $resultsd = mysqli_query($db, $queryd);
-    $rowd = mysqli_num_rows($resultsd);
-    echo '<h6 class="mb-0">' . $rowd . '/100</h6>';
+    $query1a = "SELECT room_num FROM room WHERE room_num LIKE '%d___%' AND occ='1' ";
+    $results1a = mysqli_query($db, $query1a);
+    $row1a = mysqli_num_rows($results1a);
+    $totala = 0 + $row1a;
+
+
+    $query2a = "SELECT room_num FROM room WHERE room_num LIKE '%d___%' AND occ='2' ";
+    $results2a = mysqli_query($db, $query2a);
+    $row2a = mysqli_num_rows($results2a);
+    $totala = $totala + ($row2a * 2);
+
+    echo '<h6 class="mb-0">' . $totala . '/100</h6>';
 ?>
                             </div>
                         </div>
