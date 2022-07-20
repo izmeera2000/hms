@@ -14,15 +14,15 @@ $errors = array();
 $db = mysqli_connect('localhost', 'root', '', 'id19012707_hms');
 
 if (isset($_POST['reg_user'])) {
-    
+
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $password_1 = mysqli_real_escape_string($db, $_POST['password_1']);
     $password_2 = mysqli_real_escape_string($db, $_POST['password_2']);
     $password_3 = mysqli_real_escape_string($db, $_POST['password_3']);
 
-    
-    
+
+
     if (empty($username)) {
         array_push($errors, "Username is required");
     }
@@ -36,12 +36,12 @@ if (isset($_POST['reg_user'])) {
         array_push($errors, "The two passwords do not match");
     }
 
-    
-    
+
+
     $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
-    if ($user) { 
+    if ($user) {
         if ($user['username'] === $username) {
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle me-2"></i>Username already exist
@@ -58,9 +58,9 @@ if (isset($_POST['reg_user'])) {
 
     }
 
-    
+
     if (count($errors) == 0) {
-        $password = md5($password_1); 
+        $password = md5($password_1);
         if ($password_3 == "adtectaiping33") {
             $level = '1';
         }
@@ -185,12 +185,12 @@ if (isset($_POST['pdf'])) {
 
         $b = html_entity_decode('&#10003;', ENT_HTML401, 'ISO-8859-1');
     }
-    
+
     $pdf = new Fpdi();
 
-    
+
     $pdf->setSourceFile('doc/combinepdf3.pdf');
-    
+
     $pdf->SetTitle($ndp . ' Application Form');
     $pdf->SetCreator('ADTEC Taiping');
     $pdf->SetSubject('Hostel Application Form');
@@ -198,7 +198,7 @@ if (isset($_POST['pdf'])) {
     $templateId = $pdf->importPage(1);
 
     $pdf->AddPage();
-    
+
     $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
 
     $pdf->SetFont('Arial', '', 11);
@@ -222,7 +222,12 @@ if (isset($_POST['pdf'])) {
         $pdf->Write(8, $bed_number);
 
     }
-    $pdf->Image($image, 157, 75, 35, 'JPG');
+
+    if ($image != '0') {
+        $pdf->Image($image, 157, 75, 35, 'JPG');
+
+
+    }
 
     $pdf->SetXY(58, 79);
     $pdf->Write(8, $ndp);
@@ -303,71 +308,131 @@ if (isset($_POST['pdf'])) {
     $pdf->Write(8, $gender);
 
     $pdf->SetXY(70, 47.3);
-    $pdf->Write(8, $race);
+    if ($race == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $race);
+
+    }
     $pdf->SetXY(70, 55.3);
-    $pdf->Write(8, $religion);
+    if ($religion == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $religion);
+
+    }
     $pdf->SetXY(70, 63.3);
-    $pdf->Write(8, $fathern);
+    if ($fathern == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $fathern);
+
+    }
     $pdf->SetXY(70, 71.3);
-    $pdf->Write(8, $fatherc);
+    if ($fatherc == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $fatherc);
+
+    }
     $pdf->SetXY(70, 80.3);
-    $pdf->Write(8, $fatherp);
+    if ($fatherp == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $fatherp);
+
+    }
 
     $pdf->SetXY(70, 88.3);
-    $pdf->Write(8, $mothern);
+    if ($mothern == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $mothern);
+
+    }
     $pdf->SetXY(70, 96.3);
-    $pdf->Write(8, $motherc);
+    if ($motherc == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $motherc);
+
+    }
     $pdf->SetXY(70, 104.3);
-    $pdf->Write(8, $motherp);
+    if ($motherp == '0') {
+        $pdf->Write(8, '-');
 
-
-    $das = str_split($address, 50);
-    $rownumber = count($das);
-
-    if ($rownumber == 3) {
-        $pdf->SetXY(70, 112.3);
-        $pdf->Write(8, $das[0]);
-
-        $pdf->SetXY(70, 120.3);
-        $pdf->Write(8, $das[1]);
-
-        $pdf->SetXY(70, 128.3);
-        $pdf->Write(8, $das[2]);
     }
-    if ($rownumber == 2) {
-        $pdf->SetXY(70, 112.3);
-        $pdf->Write(8, $das[0]);
+    else {
+        $pdf->Write(8, $motherp);
 
-        $pdf->SetXY(70, 120.3);
-        $pdf->Write(8, $das[1]);
-
-
-
-
-
-
-
-
-    
-}
-    if ($rownumber == 1) {
-        $pdf->SetXY(70, 112.3);
-        $pdf->Write(8, $das[0]);
     }
+
+    if ($address == '0') {
+        $pdf->SetXY(70, 112.3);
+
+        $pdf->Write(8, '-');
+
+    }
+    else {
+        $das = str_split($address, 50);
+        $rownumber = count($das);
+
+        if ($rownumber == 3) {
+            $pdf->SetXY(70, 112.3);
+            $pdf->Write(8, $das[0]);
+
+            $pdf->SetXY(70, 120.3);
+            $pdf->Write(8, $das[1]);
+
+            $pdf->SetXY(70, 128.3);
+            $pdf->Write(8, $das[2]);
+        }
+        if ($rownumber == 2) {
+            $pdf->SetXY(70, 112.3);
+            $pdf->Write(8, $das[0]);
+
+            $pdf->SetXY(70, 120.3);
+            $pdf->Write(8, $das[1]);
+        }
+        if ($rownumber == 1) {
+            $pdf->SetXY(70, 112.3);
+            $pdf->Write(8, $das[0]);
+        }
+    }
+
 
     $pdf->SetXY(70, 136.3);
-    $pdf->Write(8, $phonen);
+    if ($phonen == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $phonen);
+
+    }
     $pdf->SetXY(70, 144.3);
-    $pdf->Write(8, $hphonen);
+    if ($hphonen == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $hphonen);
+
+    }
     $pdf->SetXY(70, 152.3);
     $pdf->Write(8, $course);
     $pdf->SetXY(70, 160.3);
@@ -460,12 +525,12 @@ if (isset($_POST['pdf2'])) {
 
         $b = html_entity_decode('&#10003;', ENT_HTML401, 'ISO-8859-1');
     }
-    
+
     $pdf = new Fpdi();
 
-    
+
     $pdf->setSourceFile('doc/combinepdf3.pdf');
-    
+
     $pdf->SetTitle($ndp . ' Application Form');
     $pdf->SetCreator('ADTEC Taiping');
     $pdf->SetSubject('Hostel Application Form');
@@ -473,7 +538,7 @@ if (isset($_POST['pdf2'])) {
     $templateId = $pdf->importPage(1);
 
     $pdf->AddPage();
-    
+
     $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
 
     $pdf->SetFont('Arial', '', 11);
@@ -497,8 +562,11 @@ if (isset($_POST['pdf2'])) {
         $pdf->Write(8, $bed_number);
 
     }
-    $pdf->Image($image, 157, 75, 35, 'JPG');
+    if ($image != '0') {
+        $pdf->Image($image, 157, 75, 35, 'JPG');
 
+
+    }
     $pdf->SetXY(58, 79);
     $pdf->Write(8, $ndp);
 
@@ -578,71 +646,131 @@ if (isset($_POST['pdf2'])) {
     $pdf->Write(8, $gender);
 
     $pdf->SetXY(70, 47.3);
-    $pdf->Write(8, $race);
+    if ($race == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $race);
+
+    }
     $pdf->SetXY(70, 55.3);
-    $pdf->Write(8, $religion);
+    if ($religion == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $religion);
+
+    }
     $pdf->SetXY(70, 63.3);
-    $pdf->Write(8, $fathern);
+    if ($fathern == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $fathern);
+
+    }
     $pdf->SetXY(70, 71.3);
-    $pdf->Write(8, $fatherc);
+    if ($fatherc == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $fatherc);
+
+    }
     $pdf->SetXY(70, 80.3);
-    $pdf->Write(8, $fatherp);
+    if ($fatherp == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $fatherp);
+
+    }
 
     $pdf->SetXY(70, 88.3);
-    $pdf->Write(8, $mothern);
+    if ($mothern == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $mothern);
+
+    }
     $pdf->SetXY(70, 96.3);
-    $pdf->Write(8, $motherc);
+    if ($motherc == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $motherc);
+
+    }
     $pdf->SetXY(70, 104.3);
-    $pdf->Write(8, $motherp);
+    if ($motherp == '0') {
+        $pdf->Write(8, '-');
 
-
-    $das = str_split($address, 50);
-    $rownumber = count($das);
-
-    if ($rownumber == 3) {
-        $pdf->SetXY(70, 112.3);
-        $pdf->Write(8, $das[0]);
-
-        $pdf->SetXY(70, 120.3);
-        $pdf->Write(8, $das[1]);
-
-        $pdf->SetXY(70, 128.3);
-        $pdf->Write(8, $das[2]);
     }
-    if ($rownumber == 2) {
-        $pdf->SetXY(70, 112.3);
-        $pdf->Write(8, $das[0]);
+    else {
+        $pdf->Write(8, $motherp);
 
-        $pdf->SetXY(70, 120.3);
-        $pdf->Write(8, $das[1]);
-
-
-
-
-
-
-
-
-    
-}
-    if ($rownumber == 1) {
-        $pdf->SetXY(70, 112.3);
-        $pdf->Write(8, $das[0]);
     }
+
+    if ($address == '0') {
+        $pdf->SetXY(70, 112.3);
+
+        $pdf->Write(8, '-');
+
+    }
+    else {
+        $das = str_split($address, 50);
+        $rownumber = count($das);
+
+        if ($rownumber == 3) {
+            $pdf->SetXY(70, 112.3);
+            $pdf->Write(8, $das[0]);
+
+            $pdf->SetXY(70, 120.3);
+            $pdf->Write(8, $das[1]);
+
+            $pdf->SetXY(70, 128.3);
+            $pdf->Write(8, $das[2]);
+        }
+        if ($rownumber == 2) {
+            $pdf->SetXY(70, 112.3);
+            $pdf->Write(8, $das[0]);
+
+            $pdf->SetXY(70, 120.3);
+            $pdf->Write(8, $das[1]);
+        }
+        if ($rownumber == 1) {
+            $pdf->SetXY(70, 112.3);
+            $pdf->Write(8, $das[0]);
+        }
+    }
+
 
     $pdf->SetXY(70, 136.3);
-    $pdf->Write(8, $phonen);
+    if ($phonen == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $phonen);
+
+    }
     $pdf->SetXY(70, 144.3);
-    $pdf->Write(8, $hphonen);
+    if ($hphonen == '0') {
+        $pdf->Write(8, '-');
 
+    }
+    else {
+        $pdf->Write(8, $hphonen);
+
+    }
     $pdf->SetXY(70, 152.3);
     $pdf->Write(8, $course);
     $pdf->SetXY(70, 160.3);
@@ -672,6 +800,7 @@ if (isset($_POST['pdf2'])) {
 
 
 
+
 }
 
 
@@ -694,33 +823,68 @@ if (isset($_POST['upload'])) {
     $rdate2 = 0;
     $room_number = '0';
     $bed_number = 0;
+    $image = 0;
+    $address = 0;
+    $race = 0;
+    $fathern = 0;
+    $fatherc = 0;
+    $fatherp = 0;
+    $mothern = 0;
+    $motherc = 0;
+    $motherp = 0;
+    $hphonen = 0;
+    $phonen = 0;
+    $religion = 0;
 
-
-    $image = mysqli_real_escape_string($db, $_POST['address']);
     $name = mysqli_real_escape_string($db, $_POST['name']);
     $ndp = mysqli_real_escape_string($db, $_POST['ndp']);
     $sem = mysqli_real_escape_string($db, $_POST['sem']);
-    $phonen = mysqli_real_escape_string($db, $_POST['phonen']);
-    $hphonen = mysqli_real_escape_string($db, $_POST['hphonen']);
     $ic = mysqli_real_escape_string($db, $_POST['ic']);
     $gender = mysqli_real_escape_string($db, $_POST['gender']);
-    $race = mysqli_real_escape_string($db, $_POST['race']);
-    $religion = mysqli_real_escape_string($db, $_POST['religion']);
     $coursecode = mysqli_real_escape_string($db, $_POST['coursecode']);
     $course = mysqli_real_escape_string($db, $_POST['course']);
     $session_num = mysqli_real_escape_string($db, $_POST['session_num']);
-    $address = mysqli_real_escape_string($db, $_POST['address']);
 
 
-    
-    
+    if (!empty($_POST['address'])) {
+        $address = mysqli_real_escape_string($db, $_POST['address']);
+    }
+    if (!empty($_POST['religion'])) {
+        $religion = mysqli_real_escape_string($db, $_POST['religion']);
+    }
+    if (!empty($_POST['image'])) {
+        $image = mysqli_real_escape_string($db, $_POST['image']);
+    }
+    if (!empty($_POST['race'])) {
+        $race = mysqli_real_escape_string($db, $_POST['race']);
+    }
+    if (!empty($_POST['phonen'])) {
+        $phonen = mysqli_real_escape_string($db, $_POST['phonen']);
+    }
+    if (!empty($_POST['hphonen'])) {
+        $hphonen = mysqli_real_escape_string($db, $_POST['hphonen']);
+    }
 
-    $fathern = mysqli_real_escape_string($db, $_POST['fathern']);
-    $fatherc = mysqli_real_escape_string($db, $_POST['fatherc']);
-    $fatherp = mysqli_real_escape_string($db, $_POST['fatherp']);
-    $mothern = mysqli_real_escape_string($db, $_POST['mothern']);
-    $motherc = mysqli_real_escape_string($db, $_POST['motherc']);
-    $motherp = mysqli_real_escape_string($db, $_POST['motherp']);
+    if (!empty($_POST['fathern'])) {
+        $fathern = mysqli_real_escape_string($db, $_POST['fathern']);
+    }
+    if (!empty($_POST['fatherc'])) {
+        $fatherc = mysqli_real_escape_string($db, $_POST['fatherc']);
+    }
+    if (!empty($_POST['fatherp'])) {
+        $fatherp = mysqli_real_escape_string($db, $_POST['fatherp']);
+    }
+    if (!empty($_POST['mothern'])) {
+        $mothern = mysqli_real_escape_string($db, $_POST['mothern']);
+    }
+    if (!empty($_POST['motherc'])) {
+        $motherc = mysqli_real_escape_string($db, $_POST['motherc']);
+    }
+    if (!empty($_POST['motherp'])) {
+        $motherp = mysqli_real_escape_string($db, $_POST['motherp']);
+    }
+
+
     $username = $_SESSION['username'];
 
     if (!empty($_POST['roomkey'])) {
@@ -759,18 +923,57 @@ if (isset($_POST['upload'])) {
 
     $target_dir = "img/application/";
     $target_file = $target_dir . $ndp . ".jpg";
-    $uploadOk = 1;
-    
-    
-    
-    
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
 
-        $query = "INSERT INTO application 
+    if (!empty($image)) {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+
+            $query = "INSERT INTO application 
 (username,phase, ndp,image, sem,room_num,bed_num,name,rgender,rrace,rreligion,rfname,rfcareer,rfphonenum,rmname,rmcareer,rmphonenum,raddress,rhomephonenum,rphonenum,ic,course,coursecode,adm_Date,rkey,rbed,rpillow,rtable,rchair,rcloset,rclothhanger,rtrashcan,rmat,rcondition,rsource) 
         VALUES('$username', '1','$ndp','$target_file', '$sem', '$room_number', '$bed_number', '$name', '$gender', '$race', '$religion', '$fathern', '$fatherc', '$fatherp', '$mothern', '$motherc', '$motherp', '$address', '$hphonen', '$phonen', '$ic', '$course','$coursecode', '$session_num', '$rkey', '$rbed', '$rpillow', '$rtable', '$rchair', '$rcloset', '$rhanger', '$rtrashcan', '$rmat', '$rcondition', '$rsource')";
+            if (mysqli_query($db, $query)) {
+
+                array_push($errors, '<div class="alert alert-sucess alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>Sucessful
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+                header('location: index.php');
+
+
+            }
+            else {
+
+
+                array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
+
+
+            }
+
+
+        }
+        else {
+
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>');
+
+
+        }
+    }    
+    else {
+
+        $query = "INSERT INTO application 
+    (username,phase, ndp,image, sem,room_num,bed_num,name,rgender,rrace,rreligion,rfname,rfcareer,rfphonenum,rmname,rmcareer,rmphonenum,raddress,rhomephonenum,rphonenum,ic,course,coursecode,adm_Date,rkey,rbed,rpillow,rtable,rchair,rcloset,rclothhanger,rtrashcan,rmat,rcondition,rsource) 
+            VALUES('$username', '1','$ndp','$image', '$sem', '$room_number', '$bed_number', '$name', '$gender', '$race', '$religion', '$fathern', '$fatherc', '$fatherp', '$mothern', '$motherc', '$motherp', '$address', '$hphonen', '$phonen', '$ic', '$course','$coursecode', '$session_num', '$rkey', '$rbed', '$rpillow', '$rtable', '$rchair', '$rcloset', '$rhanger', '$rtrashcan', '$rmat', '$rcondition', '$rsource')";
         if (mysqli_query($db, $query)) {
-            
+
+            array_push($errors, '<div class="alert alert-sucess alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-circle me-2"></i>Sucessful
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
             header('location: index.php');
 
 
@@ -779,21 +982,20 @@ if (isset($_POST['upload'])) {
 
 
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
+                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database asdsad
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
 
 
         }
 
+
+
+
+
     
-    }
-    else {
-        echo 'failb';
-        echo '<script> $("#error").show();</script>';
+}
 
-
-    }
 
 
 
@@ -825,10 +1027,10 @@ if (isset($_POST['uploadpayment'])) {
             $target_file = $target_dir . $ndp . ".png";
 
         }
-        
-        
-        
-        
+
+
+
+
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
 
             $query2 = "UPDATE application SET phase='2' , rpayment= '$target_file' WHERE username='$username'";
@@ -985,7 +1187,7 @@ if (isset($_POST['approve'])) {
 
                     }
                 }
-                if (strpos($course, 'DKM') !== false) {
+                else if (strpos($course, 'DKM') !== false) {
                     $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%b%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
                     $results3 = mysqli_query($db, $query3);
 
@@ -1041,6 +1243,12 @@ if (isset($_POST['approve'])) {
 
 
                     }
+                }
+                else {
+                    array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-circle me-2"></i>Is not DTK nor DKM, please manually select room number
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
                 }
 
             }
@@ -1104,7 +1312,7 @@ if (isset($_POST['approve'])) {
 
                     }
                 }
-                if (strpos($course, 'DKM') !== false) {
+                else if (strpos($course, 'DKM') !== false) {
                     $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%d%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
                     $results3 = mysqli_query($db, $query3);
 
@@ -1160,7 +1368,12 @@ if (isset($_POST['approve'])) {
 
                     }
                 }
-
+                else {
+                    array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-circle me-2"></i>Is not DTK nor DKM, please manually select room number
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>');
+                }
 
             }
         }
@@ -1239,7 +1452,7 @@ if (isset($_POST['approve2'])) {
         $user_check_query = "SELECT * FROM student WHERE ndp='$ndp1' LIMIT 1";
         $result = mysqli_query($db, $user_check_query);
         $user = mysqli_fetch_assoc($result);
-        if ($user) { 
+        if ($user) {
 
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle me-2"></i>Student already exist
@@ -1339,8 +1552,8 @@ if (isset($_POST['roomdetails'])) {
     }
 
 
-    
-    
+
+
 
 
     $username = $_SESSION['username'];
@@ -1350,14 +1563,14 @@ if (isset($_POST['roomdetails'])) {
     $query2 = "UPDATE application SET phase='4',bed_num ='$bed_number', rkey='$roomkey', rbed='$bed',rpillow='$pillow',rtable='$table',rchair='$chair',rcloset='$closet',rclothhanger='$hanger',rtrashcan='$trashcan',rmat='$mat' WHERE username='$username'";
 
     if (mysqli_query($db, $query2)) {
-        
+
         header('location: index.php');
 
 
     }
 
 
-    
+
 
     else {
         array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
