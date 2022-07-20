@@ -1,9 +1,15 @@
-const staticHMS = "dev-coffee-site-CHMS";
+const staticHMS = "HMS";
 const assets = [
-  "/",
+  
   "/index.php",
   "/signin.php",
   "/signup.php",
+  "/applyform.php",
+  "/payment.php",
+  "/roomdetails.php",
+  "/studentlist.php",
+  "/controller/server.php",
+
   "/css/style.css",
   "/js/main.js",
 

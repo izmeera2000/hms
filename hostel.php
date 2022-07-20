@@ -112,6 +112,8 @@ if ($_SESSION['level'] == 1) { // if user exists
                             <a href="hostel.php?h=d" class="dropdown-item">Hostel D</a>
                         </div>
                     </div>
+                    <a href="studentlist.php" class="nav-item nav-link "><i
+                            class="fa fa-tachometer-alt me-2"></i>Student List</a>
                     <?php
 }
 

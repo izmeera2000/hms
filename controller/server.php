@@ -3,26 +3,26 @@ session_start();
 use setasign\Fpdi\Fpdi;
 date_default_timezone_set("Asia/Kuala_Lumpur");
 
-// initializing variables
+
 $username = "";
 $email = "";
 $errors = array();
 
 
-// connect to the database
-//$db = mysqli_connect('localhost', 'id19282315_user', 'RLK9LDV&zKHQK~I4', 'id19282315_hms','3306'); //for uploaded to 000webhost
+
+
 $db = mysqli_connect('localhost', 'root', '', 'id19012707_hms');
-// REGISTER USER
+
 if (isset($_POST['reg_user'])) {
-    // receive all input values from the form
+    
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $password_1 = mysqli_real_escape_string($db, $_POST['password_1']);
     $password_2 = mysqli_real_escape_string($db, $_POST['password_2']);
     $password_3 = mysqli_real_escape_string($db, $_POST['password_3']);
 
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
+    
+    
     if (empty($username)) {
         array_push($errors, "Username is required");
     }
@@ -36,29 +36,31 @@ if (isset($_POST['reg_user'])) {
         array_push($errors, "The two passwords do not match");
     }
 
-    // first check the database to make sure 
-    // a user does not already exist with the same username and/or email
+    
+    
     $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
     $result = mysqli_query($db, $user_check_query);
     $user = mysqli_fetch_assoc($result);
-    if ($user) { // if user exists
+    if ($user) { 
         if ($user['username'] === $username) {
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle me-2"></i>Username already exist
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>');        }
+        </div>');
+        }
 
         if ($user['email'] === $email) {
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle me-2"></i>User with the email already exist
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>');        }
+        </div>');
+        }
 
     }
 
-    // Finally, register user if there are no errors in the form
+    
     if (count($errors) == 0) {
-        $password = md5($password_1); //encrypt the password before saving in the database
+        $password = md5($password_1); 
         if ($password_3 == "adtectaiping33") {
             $level = '1';
         }
@@ -79,7 +81,7 @@ if (isset($_POST['reg_user'])) {
         header('location: index.php');
     }
 }
-// LOGIN USER
+
 if (isset($_POST['login_user'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
@@ -183,12 +185,12 @@ if (isset($_POST['pdf'])) {
 
         $b = html_entity_decode('&#10003;', ENT_HTML401, 'ISO-8859-1');
     }
-    // initiate FPDI
+    
     $pdf = new Fpdi();
 
-    // get the page count
+    
     $pdf->setSourceFile('doc/combinepdf3.pdf');
-    // iterate through all pages
+    
     $pdf->SetTitle($ndp . ' Application Form');
     $pdf->SetCreator('ADTEC Taiping');
     $pdf->SetSubject('Hostel Application Form');
@@ -196,7 +198,7 @@ if (isset($_POST['pdf'])) {
     $templateId = $pdf->importPage(1);
 
     $pdf->AddPage();
-    // use the imported page and adjust the page size
+    
     $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
 
     $pdf->SetFont('Arial', '', 11);
@@ -345,6 +347,9 @@ if (isset($_POST['pdf'])) {
 
         $pdf->SetXY(70, 120.3);
         $pdf->Write(8, $das[1]);
+
+
+
 
 
 
@@ -455,12 +460,12 @@ if (isset($_POST['pdf2'])) {
 
         $b = html_entity_decode('&#10003;', ENT_HTML401, 'ISO-8859-1');
     }
-    // initiate FPDI
+    
     $pdf = new Fpdi();
 
-    // get the page count
+    
     $pdf->setSourceFile('doc/combinepdf3.pdf');
-    // iterate through all pages
+    
     $pdf->SetTitle($ndp . ' Application Form');
     $pdf->SetCreator('ADTEC Taiping');
     $pdf->SetSubject('Hostel Application Form');
@@ -468,7 +473,7 @@ if (isset($_POST['pdf2'])) {
     $templateId = $pdf->importPage(1);
 
     $pdf->AddPage();
-    // use the imported page and adjust the page size
+    
     $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
 
     $pdf->SetFont('Arial', '', 11);
@@ -622,6 +627,9 @@ if (isset($_POST['pdf2'])) {
 
 
 
+
+
+
     
 }
     if ($rownumber == 1) {
@@ -704,8 +712,8 @@ if (isset($_POST['upload'])) {
     $address = mysqli_real_escape_string($db, $_POST['address']);
 
 
-    // $room_number = mysqli_real_escape_string($db, $_POST['room_number']);
-    // $bed_number = mysqli_real_escape_string($db, $_POST['bed_number']);
+    
+    
 
     $fathern = mysqli_real_escape_string($db, $_POST['fathern']);
     $fatherc = mysqli_real_escape_string($db, $_POST['fatherc']);
@@ -752,17 +760,17 @@ if (isset($_POST['upload'])) {
     $target_dir = "img/application/";
     $target_file = $target_dir . $ndp . ".jpg";
     $uploadOk = 1;
-    // $rcondition = "";
-    // $rsource = "";
-    // $rdate = "";
-    // $rdate2 = "";
+    
+    
+    
+    
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
 
         $query = "INSERT INTO application 
 (username,phase, ndp,image, sem,room_num,bed_num,name,rgender,rrace,rreligion,rfname,rfcareer,rfphonenum,rmname,rmcareer,rmphonenum,raddress,rhomephonenum,rphonenum,ic,course,coursecode,adm_Date,rkey,rbed,rpillow,rtable,rchair,rcloset,rclothhanger,rtrashcan,rmat,rcondition,rsource) 
         VALUES('$username', '1','$ndp','$target_file', '$sem', '$room_number', '$bed_number', '$name', '$gender', '$race', '$religion', '$fathern', '$fatherc', '$fatherp', '$mothern', '$motherc', '$motherp', '$address', '$hphonen', '$phonen', '$ic', '$course','$coursecode', '$session_num', '$rkey', '$rbed', '$rpillow', '$rtable', '$rchair', '$rcloset', '$rhanger', '$rtrashcan', '$rmat', '$rcondition', '$rsource')";
         if (mysqli_query($db, $query)) {
-            // echo "New record created successfully";
+            
             header('location: index.php');
 
 
@@ -778,7 +786,7 @@ if (isset($_POST['upload'])) {
 
         }
 
-    // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+    
     }
     else {
         echo 'failb';
@@ -787,9 +795,9 @@ if (isset($_POST['upload'])) {
 
     }
 
-// else {
-//     echo "Error: " . $query . "<br>" . mysqli_error($db);
-// }
+
+
+
 
 
 }
@@ -817,10 +825,10 @@ if (isset($_POST['uploadpayment'])) {
             $target_file = $target_dir . $ndp . ".png";
 
         }
-        // $rcondition = "";
-        // $rsource = "";
-        // $rdate = "";
-        // $rdate2 = "";
+        
+        
+        
+        
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
 
             $query2 = "UPDATE application SET phase='2' , rpayment= '$target_file' WHERE username='$username'";
@@ -845,230 +853,345 @@ if (isset($_POST['approve'])) {
 
     $receipt = $_POST['number'];
 
+    $room_num1 = $_POST['room_num'];
+
+
     $ndp = $_POST['ndp'];
     $tpaid = $_POST['tpaid'];
     $date = date("d/m/Y");
 
-    $query5 = "SELECT * FROM application WHERE ndp='$ndp'";
+    if ($room_num1) {
+        $query5 = "SELECT * FROM application WHERE ndp='$ndp'";
 
-    $results5 = mysqli_query($db, $query5);
+        $results5 = mysqli_query($db, $query5);
 
-    while ($row5 = mysqli_fetch_assoc($results5)) {
+        while ($row5 = mysqli_fetch_assoc($results5)) {
+            $query3 = "SELECT * FROM room WHERE room_num='$room_num1'  ORDER BY `room_num` LIMIT 1;";
+            $results3 = mysqli_query($db, $query3);
 
-        $rgender = $row5['rgender'];
-        $course = $row5['course'];
-        if ($rgender == 'Male') {
+            while ($row3 = mysqli_fetch_assoc($results3)) {
 
-            if (strpos($course, 'DTK') !== false) {
-                $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%a%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
-                $results3 = mysqli_query($db, $query3);
+                $occ1 = $row3['occ'];
 
-                while ($row3 = mysqli_fetch_assoc($results3)) {
-                    $room_number = $row3['room_num'];
+                if ($occ1 == '0') {
 
-                    $occ1 = $row3['room_occ1'];
-                    $occ2 = $row3['room_occ2'];
+                    $query2 = "UPDATE application SET phase='3' ,room_num='$room_num1', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
 
-                    if ($occ1 == '0') {
-
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
-
-                        $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
+                    $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_num1'";
 
 
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
-
-                            }
-
+                    if (mysqli_query($db, $query2)) {
+                        if (mysqli_query($db, $query6)) {
+                            array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
                         }
+
                     }
+                }
+                if ($occ1 == '1') {
 
-                    else {
+                    $query2 = "UPDATE application SET phase='3' ,room_num='$room_num1', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
 
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+                    $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_num1'";
 
-                        $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
-
-
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
-
-                            }
-
+                    if (mysqli_query($db, $query2)) {
+                        if (mysqli_query($db, $query6)) {
+                            array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
                         }
-                    }
 
+                    }
+                }
+                if ($occ1 == '2') {
+
+                    array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Room is full
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
 
                 }
+
+
             }
-            if (strpos($course, 'DKM') !== false) {
-                $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%b%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
-                $results3 = mysqli_query($db, $query3);
-
-                while ($row3 = mysqli_fetch_assoc($results3)) {
-                    $room_number = $row3['room_num'];
-
-                    $occ1 = $row3['room_occ1'];
-                    $occ2 = $row3['room_occ2'];
-
-                    if ($occ1 == '0') {
-
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
-
-                        $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
-
-
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
-
-                            }
-
-                        }
-                    }
-
-                    else {
-
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
-
-                        $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
-
-
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
-
-                            }
-
-                        }
-                    }
-
-
-                }
-            }
-
         }
+    }
+    else {
+        $query5 = "SELECT * FROM application WHERE ndp='$ndp'";
 
-        if ($rgender == 'Female') {
+        $results5 = mysqli_query($db, $query5);
 
-            if (strpos($course, 'DTK') !== false) {
-                $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%c%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
-                $results3 = mysqli_query($db, $query3);
+        while ($row5 = mysqli_fetch_assoc($results5)) {
 
-                while ($row3 = mysqli_fetch_assoc($results3)) {
-                    $room_number = $row3['room_num'];
+            $rgender = $row5['rgender'];
+            $course = $row5['course'];
+            if ($rgender == 'Male') {
 
-                    $occ1 = $row3['room_occ1'];
-                    $occ2 = $row3['room_occ2'];
+                if (strpos($course, 'DTK') !== false) {
+                    $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%a%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
+                    $results3 = mysqli_query($db, $query3);
 
-                    if ($occ1 == '0') {
+                    while ($row3 = mysqli_fetch_assoc($results3)) {
+                        $room_number = $row3['room_num'];
 
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+                        $occ1 = $row3['occ'];
 
-                        $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
+                        if ($occ1 == '0') {
 
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
 
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
-
-                            }
-
-                        }
-                    }
-
-                    else {
-
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
-
-                        $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
+                            $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
 
 
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
 
                             }
+                        }
+
+                        if ($occ1 == '1') {
+
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+
+                            $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
+
+
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
+
+                            }
+                        }
+                        if ($occ1 == '2') {
+
+                            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Room is full
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
 
                         }
+
                     }
-
-
                 }
-            }
-            if (strpos($course, 'DKM') !== false) {
-                $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%d%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
-                $results3 = mysqli_query($db, $query3);
+                if (strpos($course, 'DKM') !== false) {
+                    $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%b%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
+                    $results3 = mysqli_query($db, $query3);
 
-                while ($row3 = mysqli_fetch_assoc($results3)) {
-                    $room_number = $row3['room_num'];
+                    while ($row3 = mysqli_fetch_assoc($results3)) {
+                        $room_number = $row3['room_num'];
 
-                    $occ1 = $row3['room_occ1'];
-                    $occ2 = $row3['room_occ2'];
-
-                    if ($occ1 == '0') {
-
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
-
-                        $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
+                        $occ1 = $row3['occ'];
 
 
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
+                        if ($occ1 == '0') {
 
-                            }
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
 
-                        }
-                    }
-
-                    else {
-
-                        $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date'  WHERE ndp='$ndp'";
-
-                        $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
+                            $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
 
 
-                        if (mysqli_query($db, $query2)) {
-                            if (mysqli_query($db, $query6)) {
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
 
                             }
+                        }
+
+                        if ($occ1 == '1') {
+
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+
+                            $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
+
+
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
+
+                            }
+                        }
+                        if ($occ1 == '2') {
+
+                            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Room is full
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
 
                         }
+
+
                     }
-
-
                 }
+
             }
 
+            if ($rgender == 'Female') {
 
+                if (strpos($course, 'DTK') !== false) {
+                    $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%c%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
+                    $results3 = mysqli_query($db, $query3);
+
+                    while ($row3 = mysqli_fetch_assoc($results3)) {
+                        $room_number = $row3['room_num'];
+
+                        $occ1 = $row3['occ'];
+
+
+                        if ($occ1 == '0') {
+
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+
+                            $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
+
+
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
+
+                            }
+                        }
+
+                        if ($occ1 == '1') {
+
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+
+                            $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
+
+
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
+
+                            }
+                        }
+                        if ($occ1 == '2') {
+
+                            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Room is full
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
+
+                        }
+
+
+                    }
+                }
+                if (strpos($course, 'DKM') !== false) {
+                    $query3 = "SELECT * FROM room WHERE `room_num` LIKE '%d%' AND (`room_occ1`='0' OR `room_occ2`='0') ORDER BY `room_num` LIMIT 1;";
+                    $results3 = mysqli_query($db, $query3);
+
+                    while ($row3 = mysqli_fetch_assoc($results3)) {
+                        $room_number = $row3['room_num'];
+
+                        $occ1 = $row3['occ'];
+
+
+                        if ($occ1 == '0') {
+
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date' WHERE ndp='$ndp'";
+
+                            $query6 = "UPDATE room SET room_occ1='$ndp', occ='1' WHERE room_num='$room_number'";
+
+
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
+
+                            }
+                        }
+
+                        if ($occ1 == '1') {
+
+                            $query2 = "UPDATE application SET phase='3' ,room_num='$room_number', rnumber='$receipt', rtotalprice='$tpaid', rpaydate='$date'  WHERE ndp='$ndp'";
+
+                            $query6 = "UPDATE room SET room_occ2='$ndp', occ='2' WHERE room_num='$room_number'";
+
+
+                            if (mysqli_query($db, $query2)) {
+                                if (mysqli_query($db, $query6)) {
+                                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>Sucessfully approved!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>');
+                                }
+
+                            }
+                        }
+                        if ($occ1 == '2') {
+
+                            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-exclamation-circle me-2"></i>Room is full
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>');
+
+                        }
+
+                    }
+                }
+
+
+            }
         }
     }
 
 
 
 
-// $room_number = $row['room_num'];
-// $bed_number = $row['bed_num'];
-// $ndp = $row['ndp'];
-// $name = $row['name'];
-// $ic = $row['ic'];
-// $course = $row['course'];
-// $session_num = $row['adm_date'];
-
-// $gender = $row['rgender'];
-// $race = $row['rrace'];
-// $religion = $row['rreligion'];
 
 
-// $fathern = $row['rfname'];
-// $fatherc = $row['rfcareer'];        
-// $fatherp = $row['rfphonenum'];
 
-// $mothern = $row['rmname'];
-// $motherc = $row['rmcareer'];        
-// $motherp = $row['rmphonenum'];
 
-// $address = $row['raddress'];
 
-// $phonen = $row['rphonenum'];
-// $hphonen = $row['rhomephonenum'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1116,51 +1239,52 @@ if (isset($_POST['approve2'])) {
         $user_check_query = "SELECT * FROM student WHERE ndp='$ndp1' LIMIT 1";
         $result = mysqli_query($db, $user_check_query);
         $user = mysqli_fetch_assoc($result);
-        if ($user) { // if user exists
-   
+        if ($user) { 
+
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle me-2"></i>Student already exist
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>');
-            
-    
- 
-    
+
+
+
+
         }
         else {
 
-        $query = "INSERT INTO student (username, image, ndp , sem, room_num, bed_num,name , rgender, rrace, rreligion,
+            $query = "INSERT INTO student (username, image, ndp , sem, room_num, bed_num,name , rgender, rrace, rreligion,
         rfname, rfcareer, rfphonenum, rmname, rmcareer, rmphonenum, raddress, rhomephonenum, rphonenum, ic , course ,coursecode ,adm_date) 
                                 VALUES('$username','$image','$ndp','$sem','$room_num','$bed_num','$name','$rgender','$rrace','$rreligion','$rfname','$rfcareer','$rfphonenum','$rmname','$rmcareer','$rmphonenum','$raddress','$rhomephonenum','$rphonenum','$ic','$course',
         '$coursecode','$adm_date')";
-        if (mysqli_query($db, $query)) {
+            if (mysqli_query($db, $query)) {
 
-            $query2 = "UPDATE application SET phase='5'  WHERE ndp='$ndp1'";
-            if (mysqli_query($db, $query2)) {
+                $query2 = "UPDATE application SET phase='5'  WHERE ndp='$ndp1'";
+                if (mysqli_query($db, $query2)) {
 
-                array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    array_push($errors, '<div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fa fa-exclamation-circle me-2"></i>Success 
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
 
-            }
-            else {
-                array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                }
+                else {
+                    array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="fa fa-exclamation-circle me-2"></i>Error sending to database
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
 
+                }
             }
-        }
-        else
+            else
 
-            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
         <i class="fa fa-exclamation-circle me-2"></i> Error sending to database
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>');
 
 
-    }}
+        }
+    }
 }
 
 
@@ -1215,8 +1339,8 @@ if (isset($_POST['roomdetails'])) {
     }
 
 
-    // $room_number = mysqli_real_escape_string($db, $_POST['room_number']);
-    // $bed_number = mysqli_real_escape_string($db, $_POST['bed_number']);
+    
+    
 
 
     $username = $_SESSION['username'];
@@ -1226,14 +1350,14 @@ if (isset($_POST['roomdetails'])) {
     $query2 = "UPDATE application SET phase='4',bed_num ='$bed_number', rkey='$roomkey', rbed='$bed',rpillow='$pillow',rtable='$table',rchair='$chair',rcloset='$closet',rclothhanger='$hanger',rtrashcan='$trashcan',rmat='$mat' WHERE username='$username'";
 
     if (mysqli_query($db, $query2)) {
-        // echo "New record created successfully";
+        
         header('location: index.php');
 
 
     }
 
 
-    // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+    
 
     else {
         array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -1244,9 +1368,9 @@ if (isset($_POST['roomdetails'])) {
 
     }
 
-// else {
-//     echo "Error: " . $query . "<br>" . mysqli_error($db);
-// }
+
+
+
 
 
 }

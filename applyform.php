@@ -298,7 +298,6 @@ if ($_SESSION['level'] == 2) { // if user exists
 
                             <div class="mb-3 " >
                                 <img id="thumb" class="mx-auto d-block"  width="132.28346457" height="188.97637795"  />
-
                             </div>
 
                             <form method="post" action="applyform.php" enctype="multipart/form-data">
