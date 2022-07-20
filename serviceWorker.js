@@ -9,7 +9,6 @@ const assets = [
   "/roomdetails.php",
   "/studentlist.php",
   "/controller/server.php",
-
   "/css/style.css",
   "/js/main.js",
 
