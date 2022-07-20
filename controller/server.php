@@ -10,7 +10,7 @@ $errors = array();
 
 
 
-
+//$db = mysqli_connect('localhost', 'id19282315_user', 'RLK9LDV&zKHQK~I4', 'id19282315_hms','3306'); //for uploaded to 000webhost
 $db = mysqli_connect('localhost', 'root', '', 'id19012707_hms');
 
 if (isset($_POST['reg_user'])) {
