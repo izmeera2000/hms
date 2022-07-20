@@ -304,7 +304,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                             <form method="post" action="applyform.php" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Picture</label>
-                                    <input name="image" class="form-control" type="file" id="image" onchange="preview()">
+                                    <input name="image" class="form-control" type="file" id="image" onchange="preview()" required> 
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input name="name" type="text" class="form-control" id="floating4" required>
@@ -408,11 +408,11 @@ if ($_SESSION['level'] == 2) { // if user exists
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input name="condition" type="text" class="form-control" id="floating161" >
-                                    <label for="floating161">Condition / Disease</label>
+                                    <label for="floating161">Condition / Disease (Optional)</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input name="source" type="text" class="form-control" id="floating162" >
-                                    <label for="floating162">Condition / Disease Source</label>
+                                    <label for="floating162">Condition / Disease Source (Optional)</label>
                                 </div>
 
 

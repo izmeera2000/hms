@@ -43,12 +43,16 @@ if (isset($_POST['reg_user'])) {
     $user = mysqli_fetch_assoc($result);
     if ($user) { // if user exists
         if ($user['username'] === $username) {
-            array_push($errors, "Username already exists");
-        }
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>Username already exist
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>');        }
 
         if ($user['email'] === $email) {
-            array_push($errors, "email already exists");
-        }
+            array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>User with the email already exist
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>');        }
 
     }
 
