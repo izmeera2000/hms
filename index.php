@@ -419,8 +419,10 @@ if ($_SESSION['level'] == 1) {
                 <div class="row g-4">
 
 
+
                     <?php
 if ($_SESSION['level'] == 2) {
+    include('errors.php')
 
 ?>
                     <?php if (isset($_SESSION['first'])) {
@@ -449,6 +451,10 @@ if ($_SESSION['level'] == 2) {
 
             if ($phase == 1) {
 
+                array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>Success
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>');
 
 
 

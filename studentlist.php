@@ -330,7 +330,15 @@ if ($_SESSION['level'] == 1) { // if user exists
 
             echo '<tr>';
             echo '<td>' . $row["id"] . '</td>';
-            echo '<td> <img src="'.$row["image"].'" class="mx-auto d-block"  width="70" height="100"  />            </td>';
+            if (!empty($row["image"])){
+                echo '<td> <img src="'.$row["image"].'" class="mx-auto d-block"  width="70" height="100"  />            </td>';
+
+            }
+
+            else {
+                echo '<td> <img src="img/white.jpg" class="mx-auto d-block"  width="70" height="100"  />            </td>';
+
+            }
             echo '<td>' . $row["name"] . '</td>';
             echo '<td>' . $row["ndp"] . '</td>';
             echo '<td>' . $row["course"] . '</td>';

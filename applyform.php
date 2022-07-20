@@ -302,8 +302,8 @@ if ($_SESSION['level'] == 2) { // if user exists
 
                             <form method="post" action="applyform.php" enctype="multipart/form-data">
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Picture</label>
-                                    <input name="image" class="form-control" type="file" id="image" onchange="preview()" required> 
+                                    <label for="image" class="form-label">Picture (Optional)</label>
+                                    <input name="image" class="form-control" type="file" id="image" onchange="preview()" > 
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input name="name" type="text" class="form-control" id="floating4" required>
@@ -319,7 +319,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                                     <label for="floating20">Semester</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                <!-- <div class="form-floating mb-3">
                                     <input name="phonen" type="text" class="form-control" id="floating18" required>
                                     <label for="floating18">Phone Number </label>
                                 </div>
@@ -327,7 +327,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                                 <div class="form-floating mb-3">
                                     <input name="hphonen" type="text" class="form-control" id="floating17" required>
                                     <label for="floating17">Phone Number (Home)</label>
-                                </div>
+                                </div> -->
 
 
                                 <div class="form-floating mb-3">
@@ -343,7 +343,7 @@ if ($_SESSION['level'] == 2) { // if user exists
                                     <label for="floatingSelect">Gender</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                <!-- <div class="form-floating mb-3">
                                     <select class="form-select" name="race" id="floatingSelect"
                                         aria-label="Floating label select example">
                                         <option value="Malay">Malay</option>
@@ -353,16 +353,16 @@ if ($_SESSION['level'] == 2) { // if user exists
 
                                     </select>
                                     <label for="floatingSelect">Race</label>
-                                </div>
+                                </div> -->
 <!-- 
                                 <div class="form-floating mb-3">
                                     <input name="race" type="text" class="form-control" id="floating9" required>
                                     <label for="floating9">Race</label>
                                 </div> -->
-                                <div class="form-floating mb-3">
+                                <!-- <div class="form-floating mb-3">
                                     <input name="religion" type="text" class="form-control" id="floating10" required>
                                     <label for="floating10">Religion</label>
-                                </div>
+                                </div> -->
                                 <div class="form-floating mb-3">
                                     <input name="coursecode" type="text" class="form-control" id="floating6" required>
                                     <label for="floating6">Course Code</label>
@@ -375,12 +375,12 @@ if ($_SESSION['level'] == 2) { // if user exists
                                     <input name="session_num" type="text" class="form-control" id="floating7" required>
                                     <label for="floating7">Admission Session</label>
                                 </div>
-                                <div class="form-floating mb-3">
+                                <!-- <div class="form-floating mb-3">
                                     <input name="address" type="text" class="form-control" id="floating21" required>
                                     <label for="floating21">Address</label>
-                                </div>
+                                </div> -->
 
-                                <div class="form-floating mb-3">
+                                <!-- <div class="form-floating mb-3">
                                     <input name="fathern" type="text" class="form-control" id="floating11" required>
                                     <label for="floating11">Father's Name</label>
                                 </div>
@@ -404,15 +404,15 @@ if ($_SESSION['level'] == 2) { // if user exists
                                 <div class="form-floating mb-3">
                                     <input name="motherp" type="text" class="form-control" id="floating16" required>
                                     <label for="floating16">Mother's Phone Number</label>
-                                </div>
-                                <div class="form-floating mb-3">
+                                </div> -->
+                                <!-- <div class="form-floating mb-3">
                                     <input name="condition" type="text" class="form-control" id="floating161" >
                                     <label for="floating161">Condition / Disease (Optional)</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input name="source" type="text" class="form-control" id="floating162" >
                                     <label for="floating162">Condition / Disease Source (Optional)</label>
-                                </div>
+                                </div> -->
 
 
                                 <!-- <div class="form-floating mb-3">
