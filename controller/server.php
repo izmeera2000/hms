@@ -933,7 +933,7 @@ if (isset($_POST['upload'])) {
             if (mysqli_query($db, $query)) {
 
                 array_push($errors, '<div class="alert alert-sucess alert-dismissible fade show" role="alert">
-                <i class="fa fa-exclamation-circle me-2"></i>Sucessful
+                <i class="fa fa-exclamation-circle me-2"></i>Successful
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
                 header('location: index.php');
@@ -971,7 +971,7 @@ if (isset($_POST['upload'])) {
         if (mysqli_query($db, $query)) {
 
             array_push($errors, '<div class="alert alert-sucess alert-dismissible fade show" role="alert">
-                    <i class="fa fa-exclamation-circle me-2"></i>Sucessful
+                    <i class="fa fa-exclamation-circle me-2"></i>Successful
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>');
             header('location: index.php');
