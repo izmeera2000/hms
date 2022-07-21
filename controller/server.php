@@ -982,7 +982,7 @@ if (isset($_POST['upload'])) {
 
 
             array_push($errors, '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database asdsad
+                <i class="fa fa-exclamation-circle me-2"></i>Error sending to database 
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>');
 
